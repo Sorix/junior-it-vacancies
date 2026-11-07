@@ -54,6 +54,13 @@
     color: var(--hero-ink);
   }
   .hero :focus-visible { outline-color: var(--accent); }
+  .hero-intro {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 12rem;
+    align-items: center;
+    gap: 1.75rem;
+    margin-bottom: clamp(1.65rem, 4vw, 3.25rem);
+  }
   .hero h1 {
     margin: 0;
     font-size: var(--display);
@@ -63,12 +70,18 @@
   }
   .hero h1 span { display: block; }
   .hero-copy {
-    margin: 1.15rem 0 clamp(1.75rem, 4vw, 3.25rem);
+    margin: 1.15rem 0 0;
     color: var(--hero-muted);
     font-size: var(--lead);
     max-width: 32ch;
   }
   .hero-copy span { display: block; }
+  .hero-stats { display: grid; gap: 1.2rem; margin: 0; padding: 0; list-style: none; }
+  .hero-stat { display: grid; gap: .15rem; }
+  .hero-stat strong, .choice-count strong { font-variant-numeric: tabular-nums; letter-spacing: -.065em; line-height: .95; }
+  .hero-stat strong { font-size: clamp(2.5rem, 4.6vw, 4.75rem); font-weight: 740; }
+  .hero-stat:first-child strong { color: var(--accent); font-size: clamp(3.25rem, 6.25vw, 6.25rem); }
+  .hero-stat span { color: var(--hero-muted); }
   .chooser-title { margin: 0 0 .65rem; font-weight: 650; }
   .chooser { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem; }
   .choice {
@@ -86,15 +99,17 @@
   .choice[aria-current] { background: var(--accent); color: var(--accent-ink); }
   .choice-name { font-size: var(--head); font-weight: 700; line-height: 1.05; letter-spacing: -.05em; }
   .choice-copy { grid-column: 1; color: var(--hero-muted); font-size: var(--small); }
-  .choice[aria-current] .choice-copy { color: var(--accent-ink); }
-  .choice-arrow {
+  .choice[aria-current] :is(.choice-copy, .choice-count span) { color: var(--accent-ink); }
+  .choice-count {
+    display: grid;
     align-self: center;
     grid-column: 2;
     grid-row: 1 / span 2;
-    font-size: var(--lead);
-    transition: transform .18s ease;
+    gap: .2rem;
+    text-align: right;
   }
-  .choice:hover .choice-arrow { transform: translateX(.2rem); }
+  .choice-count strong { font-size: var(--head); font-weight: 720; }
+  .choice-count span { color: var(--hero-muted); font-size: var(--small); }
   .edition { margin: 1.15rem 0 0; color: var(--hero-muted); font-size: var(--small); }
   .track-panel { scroll-margin-block-start: 1.3rem; padding-block: clamp(1.65rem, 4vw, 3.1rem) 3.5rem; }
   .back-to-choices { display: inline-flex; align-items: center; min-height: 2.5rem; margin-bottom: .45rem; color: var(--muted); font-size: var(--small); }
@@ -208,26 +223,33 @@
   .secondary-body .row[data-applied="true"] { background: var(--applied); }
   .storage-note { margin: 1.5rem 0 0; color: var(--muted); font-size: var(--small); }
   @keyframes enter { from { opacity: 0; transform: translateY(.75rem); } to { opacity: 1; transform: none; } }
-  .hero h1, .hero-copy, .chooser-title, .choice, .edition { animation: enter .32s ease-out both; }
+  .hero h1, .hero-copy, .hero-stats, .chooser-title, .choice, .edition { animation: enter .32s ease-out both; }
   .hero-copy { animation-delay: .05s; }
+  .hero-stats { animation-delay: .07s; }
   .chooser-title { animation-delay: .09s; }
   .choice:nth-child(1) { animation-delay: .12s; }
   .choice:nth-child(2) { animation-delay: .16s; }
   .choice:nth-child(3) { animation-delay: .20s; }
   .edition { animation-delay: .23s; }
+  @media (max-width: 900px) {
+    .hero-intro { grid-template-columns: minmax(0, 1fr); }
+    .hero-stats { display: flex; align-items: end; gap: clamp(1.75rem, 6vw, 3rem); }
+  }
   @media (max-width: 760px) {
     .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .7rem 1rem; }
     .row-actions { grid-column: 1 / -1; }
     .careers { grid-template-columns: minmax(0, 1fr); }
   }
+  @media (max-width: 700px) {
+    .chooser { grid-template-columns: minmax(0, 1fr); }
+    .choice { min-height: 4rem; padding-block: .65rem; }
+    .choice-name { font-size: var(--lead); }
+    .choice-count strong { font-size: 1.55rem; }
+  }
   @media (max-width: 550px) {
     .hero h1 { font-size: clamp(2rem, 10.25vw, 3.5rem); }
     .hero-copy { font-size: var(--body); }
-    .chooser { grid-template-columns: minmax(0, 1fr); }
-    .choice { min-height: 3.7rem; grid-template-columns: minmax(0, 6rem) minmax(0, 1fr) auto; align-items: center; }
-    .choice-name { font-size: var(--lead); }
-    .choice-copy { grid-column: 2; }
-    .choice-arrow { grid-column: 3; grid-row: 1; }
+    .hero-stat span { font-size: var(--small); }
     .track-header { align-items: stretch; flex-direction: column; gap: .85rem; }
     .search { width: 100%; }
     .row { grid-template-columns: minmax(0, 1fr); gap: .65rem; padding: .9rem; }
@@ -242,13 +264,30 @@
 <body>
 <header class="hero">
   <div class="wrap">
-    <h1><span>Стажировки и</span><span>Junior-вакансии</span></h1>
-    <p class="hero-copy"><span>Москва и область.</span> <span>Удалённая работа по России.</span></p>
+    <div class="hero-intro">
+      <div>
+        <h1><span>Стажировки и</span><span>Junior-вакансии</span></h1>
+        <p class="hero-copy"><span>Москва и область.</span> <span>Удалённая работа по России.</span></p>
+      </div>
+      <ul class="hero-stats" aria-label="Вакансии в подборке" hidden>
+        <li class="hero-stat"><strong data-total></strong><span>вакансий всего</span></li>
+        <li class="hero-stat"><strong data-direct></strong><span>с прямым откликом</span></li>
+      </ul>
+    </div>
     <p class="chooser-title" id="choose" tabindex="-1">Выберите направление</p>
     <nav class="chooser" aria-labelledby="choose">
-      <a class="choice" href="#ios"><span class="choice-name">iOS</span><span class="choice-copy">Swift и iOS SDK</span><span class="choice-arrow" aria-hidden="true">↗</span></a>
-      <a class="choice" href="#android"><span class="choice-name">Android</span><span class="choice-copy">Kotlin и Android SDK</span><span class="choice-arrow" aria-hidden="true">↗</span></a>
-      <a class="choice" href="#qa"><span class="choice-name">QA</span><span class="choice-copy">Ручное тестирование и автотесты</span><span class="choice-arrow" aria-hidden="true">↗</span></a>
+      <a class="choice" href="#ios">
+        <span class="choice-name">iOS</span><span class="choice-copy">Swift и iOS SDK</span>
+        <span class="choice-count" hidden><strong></strong><span></span></span>
+      </a>
+      <a class="choice" href="#android">
+        <span class="choice-name">Android</span><span class="choice-copy">Kotlin и Android SDK</span>
+        <span class="choice-count" hidden><strong></strong><span></span></span>
+      </a>
+      <a class="choice" href="#qa">
+        <span class="choice-name">QA</span><span class="choice-copy">Ручное тестирование и автотесты</span>
+        <span class="choice-count" hidden><strong></strong><span></span></span>
+      </a>
     </nav>
     <p class="edition">Подборка от <time datetime="2026-11-07">7 ноября 2026 года</time></p>
   </div>
@@ -740,6 +779,13 @@
   const checkboxes = [...document.querySelectorAll('.check input')];
   const linkKey = link => 'visited:' + link.href;
 
+  const vacancyWord = { one: 'вакансия', few: 'вакансии', many: 'вакансий' };
+  const pluralRules = new Intl.PluralRules('ru');
+  const stats = document.querySelector('.hero-stats');
+  stats.querySelector('[data-total]').textContent = checkboxes.length;
+  stats.querySelector('[data-direct]').textContent = document.querySelectorAll('.source [data-job]').length;
+  stats.hidden = false;
+
   function paintMarks() {
     for (const link of allLinks) {
       const visited = readMark(linkKey(link));
@@ -783,6 +829,13 @@
   }
 
   for (const tab of tabs) {
+    const panel = document.getElementById(tab.hash.slice(1));
+    const total = panel.querySelectorAll('[data-job]').length;
+    const count = tab.querySelector('.choice-count');
+    count.querySelector('strong').textContent = total;
+    count.querySelector('span').textContent = vacancyWord[pluralRules.select(total)];
+    count.hidden = false;
+
     tab.addEventListener('click', event => {
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
       event.preventDefault();
