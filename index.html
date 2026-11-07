@@ -3,108 +3,806 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="Подборка стажировок и Junior-вакансий в QA, iOS и Android. Москва, Московская область и удалёнка.">
+<meta name="description" content="Стажировки и Junior-вакансии в iOS, Android и QA. Москва, Московская область и удалёнка.">
 <title>Стажировки и Junior-вакансии</title>
 <style>
-  :root { color-scheme: light; --ink:#18232c; --muted:#53616a; --paper:#f3f5f2; --white:#fff; --line:#dbe3df; --accent:#174f40; }
-  * { box-sizing:border-box; }
-  [hidden] { display:none !important; }
-  body { margin:0; background:var(--paper); color:var(--ink); font:16px/1.55 system-ui,-apple-system,sans-serif; }
-  header { background:#132c25; color:#fff; }
-  .wrap { width:min(100% - 3rem, 70rem); margin-inline:auto; }
-  .intro { padding-block:2.75rem; }
-  .date { margin:0; color:#b9d9c7; font-size:.875rem; }
-  h1 { margin:.55rem 0; font-size:clamp(2.05rem,5.4vw,3.65rem); font-weight:710; letter-spacing:-.055em; line-height:1.08; }
-  .subtitle { color:#d9e9df; margin:1rem 0 0; }
-  main { padding-block:1.6rem 3rem; }
-  .filters { display:flex; align-items:end; gap:.8rem; flex-wrap:wrap; }
-  .filters label { display:grid; gap:.3rem; font-size:.85rem; font-weight:650; }
-  .search { flex:1 1 16rem; }
-  input, select { width:100%; min-height:2.65rem; border:1px solid #aabbb2; border-radius:.45rem; background:var(--white); color:var(--ink); font:inherit; padding:.45rem .75rem; }
-  :focus-visible { outline:3px solid #27785b; outline-offset:3px; }
-  #results { color:var(--muted); margin:.75rem 0 1.55rem; font-size:.9rem; }
-  .source { margin-block:1.5rem 2.5rem; }
-  h2 { display:flex; align-items:center; flex-wrap:wrap; gap:.6rem; margin:0 0 .9rem; font-size:1.65rem; letter-spacing:-.02em; }
-  h2 span { display:inline-block; padding:.15rem .6rem; background:#e2ede7; color:#1a523f; border-radius:.35rem; font-size:.83rem; letter-spacing:0; }
-  .group { margin:0 0 1rem; border:1px solid var(--line); border-radius:.65rem; background:var(--white); }
-  h3 { margin:0; border-bottom:1px solid var(--line); padding:.65rem 1rem; background:#f8faf9; border-radius:.65rem .65rem 0 0; font-size:1rem; }
-  .note { margin:.65rem 0; color:var(--muted); font-size:.9rem; }
-  .group .note { padding-inline:1rem; }
-  ul { list-style:none; margin:0; padding:0; }
-  .row { display:grid; grid-template-columns:minmax(0,1.25fr) minmax(0,1.7fr) minmax(0,.75fr); gap:1.2rem; align-items:start; padding:.9rem 1rem; }
-  .row + .row { border-top:1px solid var(--line); }
-  .role { display:grid; gap:.2rem; }
-  .role span, .description { color:var(--muted); }
-  .role .location { font-size:.83rem; }
-  .description { margin:0; }
-  .apply { color:var(--muted); }
-  a { color:var(--accent); text-decoration-thickness:1px; text-underline-offset:3px; overflow-wrap:anywhere; }
-  a:hover { text-decoration-thickness:2px; }
-  .apply a { font-weight:650; }
-  .careers { grid-template-columns:minmax(0,1.25fr) minmax(0,2.45fr); }
-  @media (max-width: 700px) {
-    .wrap { width:calc(100% - 2rem); }
-    .intro { padding-block:1.9rem; }
-    .filters label { flex:1 1 8rem; }
-    .filters .search { flex-basis:100%; }
-    .row { grid-template-columns:1fr; gap:.45rem; }
+  :root {
+    color-scheme: light;
+    --ink: #1f2b4d;
+    --muted: #535d72;
+    --bg: #fff;
+    --surface: #f3f4f6;
+    --surface-hover: #e8ecf2;
+    --hero: #101625;
+    --hero-surface: #1c263b;
+    --hero-hover: #29364f;
+    --hero-ink: #f9fafc;
+    --hero-muted: #c6cde0;
+    --accent: #ffad42;
+    --accent-ink: #171b26;
+    --applied: #e8f3eb;
+    --applied-ink: #1d5a3a;
+    --visited-ink: #4a5471;
+    --focus: #255fb8;
+    --small: .875rem;
+    --body: 1rem;
+    --lead: 1.25rem;
+    --head: clamp(1.7rem, 4vw, 2.65rem);
+    --display: clamp(2.65rem, 8.5vw, 7.4rem);
+    --pad: clamp(1.15rem, 4vw, 3.5rem);
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body {
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: var(--body)/1.55 system-ui, -apple-system, sans-serif;
+  }
+  .wrap { width: min(100% - var(--pad) * 2, 72rem); margin-inline: auto; }
+  a { color: inherit; text-underline-offset: .2em; overflow-wrap: anywhere; }
+  a:hover { text-decoration-thickness: .12em; }
+  :focus-visible { outline: .2rem solid var(--focus); outline-offset: .2rem; }
+  .hero {
+    flex: 1 0 auto;
+    padding-block: clamp(2.15rem, 6vw, 5rem) clamp(1.8rem, 4vw, 3rem);
+    background: var(--hero);
+    color: var(--hero-ink);
+  }
+  .hero :focus-visible { outline-color: var(--accent); }
+  .hero h1 {
+    margin: 0;
+    font-size: var(--display);
+    font-weight: 740;
+    line-height: .99;
+    letter-spacing: -.065em;
+  }
+  .hero h1 span { display: block; }
+  .hero-copy {
+    margin: 1.15rem 0 clamp(1.75rem, 4vw, 3.25rem);
+    color: var(--hero-muted);
+    font-size: var(--lead);
+    max-width: 32ch;
+  }
+  .hero-copy span { display: block; }
+  .chooser-title { margin: 0 0 .65rem; font-weight: 650; }
+  .chooser { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .55rem; }
+  .choice {
+    min-height: 6.65rem;
+    display: grid;
+    align-content: center;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: .2rem .5rem;
+    padding: .9rem clamp(.85rem, 2.3vw, 1.5rem);
+    background: var(--hero-surface);
+    text-decoration: none;
+    transition: background-color .18s ease, color .18s ease;
+  }
+  .choice:hover { background: var(--hero-hover); }
+  .choice[aria-current] { background: var(--accent); color: var(--accent-ink); }
+  .choice-name { font-size: var(--head); font-weight: 700; line-height: 1.05; letter-spacing: -.05em; }
+  .choice-copy { grid-column: 1; color: var(--hero-muted); font-size: var(--small); }
+  .choice[aria-current] .choice-copy { color: var(--accent-ink); }
+  .choice-arrow {
+    align-self: center;
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    font-size: var(--lead);
+    transition: transform .18s ease;
+  }
+  .choice:hover .choice-arrow { transform: translateX(.2rem); }
+  .edition { margin: 1.15rem 0 0; color: var(--hero-muted); font-size: var(--small); }
+  .track-panel { scroll-margin-block-start: 1.3rem; padding-block: clamp(1.65rem, 4vw, 3.1rem) 3.5rem; }
+  .back-to-choices { display: inline-flex; align-items: center; min-height: 2.5rem; margin-bottom: .45rem; color: var(--muted); font-size: var(--small); }
+  .track-header { display: flex; align-items: end; justify-content: space-between; gap: 1.4rem; }
+  .track-header h2:focus, .chooser-title:focus { outline: none; }
+  .track-header h2 { margin: 0; font-size: var(--head); letter-spacing: -.05em; line-height: 1.15; }
+  .track-header label { display: grid; gap: .25rem; color: var(--muted); font-size: var(--small); font-weight: 620; }
+  .search { width: min(23rem, 44%); }
+  .search input {
+    width: 100%;
+    min-height: 2.8rem;
+    border: 1px solid var(--muted);
+    border-radius: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: var(--body)/1.4 system-ui, sans-serif;
+    padding: .5rem .7rem;
+  }
+  .results { margin: .9rem 0 0; color: var(--muted); font-size: var(--small); }
+  .source { margin-block: 1.7rem 0; }
+  .group { margin-block: 1.45rem 2.15rem; }
+  .group h4 { margin: 0 0 .65rem; font-size: var(--lead); font-weight: 670; letter-spacing: -.025em; line-height: 1.2; }
+  .source-heading { margin: 0; font-size: var(--head); line-height: 1.12; letter-spacing: -.045em; }
+  .note { margin: .65rem 0 .95rem; color: var(--muted); font-size: var(--small); }
+  .rows { list-style: none; display: grid; gap: .45rem; margin: 0; padding: 0; }
+  .row {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.5fr) minmax(0, .75fr);
+    gap: 1.35rem;
+    align-items: start;
+    padding: 1.1rem 1.15rem;
+    background: var(--surface);
+    transition: background-color .18s ease;
+  }
+  .row[data-applied="true"] { background: var(--applied); }
+  .role { display: grid; gap: .2rem; overflow-wrap: anywhere; }
+  .role strong { font-size: var(--lead); line-height: 1.24; font-weight: 680; letter-spacing: -.025em; }
+  .role span { color: var(--muted); }
+  .role .location { font-size: var(--small); }
+  .description { margin: 0; overflow-wrap: anywhere; }
+  .row-actions { display: grid; gap: .45rem; justify-items: start; min-width: 0; }
+  .apply { display: flex; flex-wrap: wrap; align-items: center; gap: .35rem .65rem; font-size: var(--small); }
+  .apply a { font-weight: 620; }
+  .apply a:first-child {
+    display: inline-block;
+    min-height: 2.5rem;
+    padding: .55rem .65rem;
+    background: var(--ink);
+    color: var(--bg);
+    text-decoration: none;
+  }
+  .apply a:first-child:hover { text-decoration: underline; }
+  .apply a:first-child:visited, .apply a:first-child[data-visited="true"] {
+    background: var(--surface-hover);
+    color: var(--visited-ink);
+  }
+  .visited {
+    display: inline-block;
+    margin-inline-start: .4rem;
+    color: var(--visited-ink);
+    font-size: var(--small);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .apply a:first-child .visited { display: block; margin: .1rem 0 0; }
+  .check {
+    min-height: 2.5rem;
+    display: inline-flex;
+    gap: .45rem;
+    align-items: center;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: var(--small);
+  }
+  .check input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: var(--applied-ink); cursor: pointer; flex: none; }
+  .row[data-applied="true"] .check { color: var(--applied-ink); font-weight: 700; }
+  .careers { grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr); }
+  .secondary { margin-top: 1.1rem; background: var(--surface); }
+  .secondary summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: .1rem .75rem;
+    padding: 1rem 1.15rem;
+    list-style: none;
+    cursor: pointer;
+  }
+  .secondary summary::-webkit-details-marker { display: none; }
+  .secondary summary:hover { background: var(--surface-hover); }
+  .secondary summary::after {
+    content: "";
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    width: .55rem;
+    height: .55rem;
+    margin-inline-end: .2rem;
+    border-inline-end: .12rem solid;
+    border-block-end: .12rem solid;
+    transform: rotate(45deg);
+  }
+  .secondary[open] summary::after { transform: rotate(225deg); }
+  .secondary-title { grid-column: 1; font-size: var(--lead); font-weight: 670; }
+  .secondary-count { grid-column: 1; color: var(--muted); font-size: var(--small); }
+  .secondary-body { padding: .15rem 1.15rem 1.15rem; }
+  .secondary-body .group { margin-block: 1rem; }
+  .secondary-body .row { background: var(--bg); }
+  .secondary-body .row[data-applied="true"] { background: var(--applied); }
+  .storage-note { margin: 1.5rem 0 0; color: var(--muted); font-size: var(--small); }
+  @keyframes enter { from { opacity: 0; transform: translateY(.75rem); } to { opacity: 1; transform: none; } }
+  .hero h1, .hero-copy, .chooser-title, .choice, .edition { animation: enter .32s ease-out both; }
+  .hero-copy { animation-delay: .05s; }
+  .chooser-title { animation-delay: .09s; }
+  .choice:nth-child(1) { animation-delay: .12s; }
+  .choice:nth-child(2) { animation-delay: .16s; }
+  .choice:nth-child(3) { animation-delay: .20s; }
+  .edition { animation-delay: .23s; }
+  @media (max-width: 760px) {
+    .row { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: .7rem 1rem; }
+    .row-actions { grid-column: 1 / -1; }
+    .careers { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 550px) {
+    .hero h1 { font-size: clamp(2rem, 10.25vw, 3.5rem); }
+    .hero-copy { font-size: var(--body); }
+    .chooser { grid-template-columns: minmax(0, 1fr); }
+    .choice { min-height: 3.7rem; grid-template-columns: minmax(0, 6rem) minmax(0, 1fr) auto; align-items: center; }
+    .choice-name { font-size: var(--lead); }
+    .choice-copy { grid-column: 2; }
+    .choice-arrow { grid-column: 3; grid-row: 1; }
+    .track-header { align-items: stretch; flex-direction: column; gap: .85rem; }
+    .search { width: 100%; }
+    .row { grid-template-columns: minmax(0, 1fr); gap: .65rem; padding: .9rem; }
+    .row-actions { gap: .15rem; }
+    .secondary-body { padding-inline: .65rem; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
 </head>
 <body>
-<header><div class="wrap intro">
-<p class="date"><time datetime="2026-11-07">7 ноября 2026 года</time></p>
-<h1>Стажировки и Junior-вакансии</h1>
-<p class="subtitle">Офис и гибрид в Москве и Московской области · Удалёнка по России</p>
-</div></header>
-<main class="wrap">
-<form class="filters" hidden>
-<label>Направление<select id="platform"><option value="">Все</option><option>QA</option><option>iOS</option><option>Android</option></select></label>
-<label>Где откликнуться<select id="source"><option value="">Все источники</option><option value="direct">Напрямую</option><option value="board">На агрегаторе</option></select></label>
-<label class="search">Поиск<input id="search" type="search" placeholder="Компания, роль или навык"></label>
-</form>
-<p id="results" aria-live="polite" hidden></p>
-<div id="listings"><section class="source" data-platform="QA" data-kind="direct"><h2>QA<span>Прямой отклик</span></h2><section class="group" data-career="false"><h3>Стажировки и Junior QA</h3><ul><li class="row"><div class="role"><strong>Junior QA Automation</strong><span>VK · МАХ</span><span class="location">Москва · гибрид, 40 ч/нед.</span></div><p class="description">Автотесты интерфейса десктопного МАХ. Kotlin, Appium, Git, диагностика падений.</p><div class="apply"><a href="https://internship.vk.company/vacancy/1467" target="_blank" rel="noopener noreferrer">Форма с резюме</a></div></li><li class="row"><div class="role"><strong>AQA (Java), поиск СберБанк Онлайн</strong><span>Сбер</span><span class="location">Москва · гибрид</span></div><p class="description">Ручные проверки поиска в мобильном приложении и вебе. Коммерческий опыт и Java указаны как плюсы.</p><div class="apply"><a href="https://rabota.sber.ru/search/aqa-java-4579297/" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Стажёр AQA, MWS Octapi</strong><span>МТС Web Services</span><span class="location">Москва · гибрид, 30–40 ч/нед.</span></div><p class="description">Python, Playwright, Postman и ручные проверки. Для студентов 3–6 курсов или магистратуры.</p><div class="apply"><a href="https://job.mts.ru/vacancy/724270740890717407" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Стажёр AQA, 5G Signaling</strong><span>МТС Web Services</span><span class="location">Москва · гибрид, от 20 ч/нед.</span></div><p class="description">Ручные и автоматизированные проверки ядра 5G. Python, Linux, базовый SQL.</p><div class="apply"><a href="https://job.mts.ru/vacancy/721716963407036734" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Стажёр AQA, группа обеспечения качества</strong><span>МТС Web Services</span><span class="location">Москва · гибрид</span></div><p class="description">Ручные, нагрузочные и Python-автотесты веба и бэкенда. Для старших курсов, нужны SQL, REST и основы Kafka/RabbitMQ.</p><div class="apply"><a href="https://job.mts.ru/vacancy/697479947693850910" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Стажёр AQA, DevRails</strong><span>МТС Web Services</span><span class="location">Москва · гибрид, 40 ч/нед.</span></div><p class="description">Python/pytest для API, Playwright для UI. Для старших курсов, нужны SQL, Git и практика с Kafka.</p><div class="apply"><a href="https://job.mts.ru/vacancy/720207521234570448" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Стажёр Manual QA</strong><span>Яндекс</span><span class="location">Москва · 20–40 ч/нед.</span></div><p class="description">Оплачивается, 3–6 мес. Отбор через Контест.</p><div class="apply"><a href="https://forms.yandex.ru/surveys/13884070.e6785b1c8b3dee093caa9a792f35b10ee9297e94/" target="_blank" rel="noopener noreferrer">Анкета</a> · <a href="https://yandex.ru/yaintern/qa" target="_blank" rel="noopener noreferrer">условия</a></div></li><li class="row"><div class="role"><strong>Стажёр AQA</strong><span>Яндекс</span><span class="location">Москва · 20–40 ч/нед.</span></div><p class="description">Оплачивается, 3–6 мес. Автотесты и задание в Контесте.</p><div class="apply"><a href="https://forms.yandex.ru/surveys/13723799.944f5a80506b89f9cb0f25bf21e2a1097fe8effa/" target="_blank" rel="noopener noreferrer">Анкета AQA</a> · <a href="https://yandex.ru/yaintern/qa" target="_blank" rel="noopener noreferrer">условия</a></div></li><li class="row"><div class="role"><strong>Стажёр QA</strong><span>Айтулабс</span><span class="location">Удалённо</span></div><p class="description">Регресс и приёмка коммуникационной платформы. Подходят выпускники курсов. В письме укажите город и зарплатные ожидания.</p><div class="apply"><a href="https://itoolabs.huntflow.io/vacancy/testirovshchik-stazher-3" target="_blank" rel="noopener noreferrer">Форма с резюме</a></div></li><li class="row"><div class="role"><strong>Trainee / Junior Manual QA</strong><span>SMYT</span><span class="location">Удалённо · полный день</span></div><p class="description">Оплачиваемая стажировка с наставником. Веб, тест-кейсы, баг-репорты. Нужны теория QA и английский.</p><div class="apply"><a href="https://careers.smyt.ru/vacancies/qa-engineer-all-j/" target="_blank" rel="noopener noreferrer">Форма с резюме</a></div></li><li class="row"><div class="role"><strong>Junior QA, мобильное ПО</strong><span>Клеверенс</span><span class="location">Москва · офис</span></div><p class="description">Android, Windows CE/Mobile, Jira, TestRail. Нужно высшее или неоконченное техническое. 50–70 тыс. ₽ на руки.</p><div class="apply"><a href="https://www.cleverence.ru/solutions/vakansii/#rec2886559201" target="_blank" rel="noopener noreferrer">Карточка</a> · <a href="mailto:hr@cleverence.ru" target="_blank" rel="noopener noreferrer">резюме по почте</a></div></li><li class="row"><div class="role"><strong>Тестировщик ПО</strong><span>Тензор</span><span class="location">Удалённо</span></div><p class="description">Регресс и исследовательское тестирование Saby. Берут после курсов или самообучения. 58–101 тыс. ₽.</p><div class="apply"><a href="https://tensor.ru/about/devcenter/72/481462257" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li></ul></section><section class="group" data-career="false"><h3>Ozon Tech</h3><p class="note">Стажировки с полной занятостью. <a href="https://ozon.tech/internship/" target="_blank" rel="noopener noreferrer">Условия программы</a>.</p><ul><li class="row"><div class="role"><strong>Ozon Travel · стажёр QA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Ручные проверки бронирования и автотесты. REST API, Postman/curl и основы Go, TypeScript или Python.</p><div class="apply"><a href="https://ozon.tech/vacancies/3cf0ded9-06c1-4485-a1a1-fdd91ca18075-stazhior-inzhener-po-testirovaniiu-trevel/" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Логистика · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Python, pytest, Allure. Ручные проверки фронтенда и бэкенда, автотесты.</p><div class="apply"><a href="https://ozon.tech/vacancies/0bb923dc-ff55-485c-bf6e-827547c6a629/" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Внутрискладской трекинг · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Python, REST/gRPC, Postman или curl. Ручные, автоматизированные и нагрузочные проверки.</p><div class="apply"><a href="https://ozon.tech/vacancies/7332f67c-b178-441f-b2e6-f679deb0fb72" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Обработка проблемного товара · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Веб-автотесты на TypeScript и Playwright. Подойдёт знакомство с аналогичными инструментами.</p><div class="apply"><a href="https://ozon.tech/vacancies/c906c86b-13b6-4d01-9fab-d5e17110ba22-stazhior-inzhener-po-avtomatizatsii-testirovaniia-javascript-obrabotka-problemnogo-tovara/" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Ценообразование селлеров · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Автотесты на Go. Нужны практика REST API и SQL с JOIN.</p><div class="apply"><a href="https://ozon.tech/vacancies/60743f0e-eb2e-485c-b598-705ae418f436-stazhior-inzhener-po-avtomatizatsii-testirovaniia-go-instrumenty-avtomaticheskogo-tsenoobrazovaniia-sellera/" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Интеграционные и аналитические сервисы · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Москва · гибрид</span></div><p class="description">Автотесты финансовых сервисов. Основы Go, TypeScript или Python, REST/gRPC, практика проверки API.</p><div class="apply"><a href="https://ozon.tech/vacancies/16bb7a06-d05e-4ad5-9ab9-b8865ad4a647" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Рекомендации · стажёр QA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Ручные проверки фронтенда и бэкенда, автотесты на Go. Нужна практика ручного тестирования.</p><div class="apply"><a href="https://ozon.tech/vacancies/d9d5fe09-f386-4d66-a36f-bfe008f64544/" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li></ul></section><section class="group" data-career="false"><h3>Позиции с требованиями к опыту</h3><ul><li class="row"><div class="role"><strong>Junior AQA, «Поток»</strong><span>Сбер</span><span class="location">Москва · гибрид</span></div><p class="description">От года автоматизации на Python. Backend/UI, REST, JSON, SQL.</p><div class="apply"><a href="https://rabota.sber.ru/search/junior-aqa-inzhener-potok-4579585/" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Стажёр QA, МТС ПРО</strong><span>МТС</span><span class="location">Москва · гибрид, 40 ч/нед.</span></div><p class="description">Оплачивается. В карточке указан опыт 1–3 года. Ручные проверки облачной платформы, REST, логи, Python или Java.</p><div class="apply"><a href="https://job.mts.ru/vacancy/703886584130309370" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Junior AQA Java, CX</strong><span>МТС Web Services</span><span class="location">Москва · гибрид</span></div><p class="description">От года AQA. Java/JUnit, REST Assured, SQL. Для UI — Playwright или Appium в зависимости от тестов.</p><div class="apply"><a href="https://job.mts.ru/vacancy/706028876848955688" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Junior AQA, TATLIN.UNIFIED</strong><span>YADRO</span><span class="location">Москва · гибрид</span></div><p class="description">Нужна практика Python/pytest, тест-дизайна и работы с Linux. Автотесты системы хранения данных.</p><div class="apply"><a href="https://careers.yadro.com/vacancy/102545" target="_blank" rel="noopener noreferrer">Форма с резюме</a></div></li></ul></section><section class="group" data-career="false"><h3>Программы и общие анкеты</h3><ul><li class="row"><div class="role"><strong>Подбор стажировки</strong><span>СберТех</span></div><p class="description">Общая анкета со сведениями о вузе и навыках. Отдельная открытая QA-роль не подтверждена.</p><div class="apply"><a href="https://sbertech.ru/education/internships" target="_blank" rel="noopener noreferrer">Анкета стажёра</a> · <a href="https://sbertech.ru/career" target="_blank" rel="noopener noreferrer">общая форма с резюме</a></div></li><li class="row"><div class="role"><strong>Индивидуальная стажировка QA</strong><span>KODE</span></div><p class="description">Круглогодичные заявки. Тестирование приложений и API, Charles/Postman. Удалёнку нужно уточнить.</p><div class="apply"><a href="https://edu.kode.ru/mentoringinternship" target="_blank" rel="noopener noreferrer">Анкета в разделе QA</a></div></li><li class="row"><div class="role"><strong>Функциональное тестирование</strong><span>ЛАНИТ Экспертиза</span></div><p class="description">Техническое высшее или неоконченное высшее. Дата старта не указана. Тема письма «Старт для новичков ФТ».</p><div class="apply"><a href="https://lanit-exp.ru/traineeship/functional-testing-training/" target="_blank" rel="noopener noreferrer">Условия</a> · <a href="mailto:lanitexp_hr@lanit.ru" target="_blank" rel="noopener noreferrer">почта HR</a></div></li><li class="row"><div class="role"><strong>Ручное функциональное тестирование</strong><span>МТИ Технологии</span></div><p class="description">От 3 мес., для студентов и выпускников. Дату старта и возможность удалёнки нужно уточнить.</p><div class="apply"><a href="https://mti-technologies.ru/vakansii.html" target="_blank" rel="noopener noreferrer">Форма</a> · <a href="mailto:mti.technologies@yandex.com" target="_blank" rel="noopener noreferrer">почта</a></div></li><li class="row"><div class="role"><strong>Онлайн-стажировка QA</strong><span>SimbirSoft</span></div><p class="description">Оплачивается. Для старших курсов ИТ, нужен коммерческий опыт в ИТ. Ориентир — 40 ч/нед.</p><div class="apply"><a href="https://students.simbirsoft.com/" target="_blank" rel="noopener noreferrer">Анкета с резюме</a></div></li></ul></section><section class="group" data-career="true"><h3>Карьерные страницы для следующих наборов</h3><ul><li class="row careers"><strong>Продуктовые команды</strong><div><a href="https://career.avito.com/" target="_blank" rel="noopener noreferrer">Авито</a>, <a href="https://job.2gis.ru/vacancies" target="_blank" rel="noopener noreferrer">2ГИС</a>, <a href="https://career.rwb.ru/" target="_blank" rel="noopener noreferrer">RWB</a>, <a href="https://x5.tech/vacancy" target="_blank" rel="noopener noreferrer">X5 Tech</a>, <a href="https://magnit.tech/internship" target="_blank" rel="noopener noreferrer">Магнит Tech</a>, <a href="https://kontur.ru/education/internship" target="_blank" rel="noopener noreferrer">Контур</a>, <a href="https://selectel.ru/careers/all/" target="_blank" rel="noopener noreferrer">Selectel</a>, <a href="https://myoffice.ru/career/" target="_blank" rel="noopener noreferrer">МойОфис</a>, <a href="https://astra.ru/about/career/traineeship/" target="_blank" rel="noopener noreferrer">Группа Астра</a></div></li><li class="row careers"><strong>Банки и телеком</strong><div><a href="https://student.sber.ru/internship" target="_blank" rel="noopener noreferrer">Сбер</a>, <a href="https://education.tbank.ru/start/quality_engineer/" target="_blank" rel="noopener noreferrer">Т-Банк</a>, <a href="https://job.alfabank.ru/start-career" target="_blank" rel="noopener noreferrer">Альфа-Банк</a>, <a href="https://rabota.vtb.ru/internship/it-yunior/" target="_blank" rel="noopener noreferrer">ВТБ</a>, <a href="https://job.mts.ru/programs" target="_blank" rel="noopener noreferrer">МТС</a>, <a href="https://job.rt.ru/youngSpecialists" target="_blank" rel="noopener noreferrer">Ростелеком</a></div></li><li class="row careers"><strong>Интеграторы</strong><div><a href="https://career.t1.ru/debut/internship" target="_blank" rel="noopener noreferrer">Т1</a>, <a href="https://job.lanit.ru/" target="_blank" rel="noopener noreferrer">ЛАНИТ</a>, <a href="https://careers.croc.ru/" target="_blank" rel="noopener noreferrer">КРОК</a>, <a href="https://ibs.ru/career/" target="_blank" rel="noopener noreferrer">IBS</a>, <a href="https://jet.su/career/" target="_blank" rel="noopener noreferrer">Инфосистемы Джет</a>, <a href="https://digitalleague.ru/career/traineeships" target="_blank" rel="noopener noreferrer">Лига Цифровой Экономики</a>, <a href="https://career.korusconsulting.ru/vacancies/" target="_blank" rel="noopener noreferrer">КОРУС Консалтинг</a>, <a href="https://softline.ru/job" target="_blank" rel="noopener noreferrer">Softline</a>, <a href="https://icl-services.com/career/job/" target="_blank" rel="noopener noreferrer">ICL Services</a>, <a href="https://www.naumen.ru/career/trainee/" target="_blank" rel="noopener noreferrer">Naumen</a>, <a href="https://neoflex.ru/about/career" target="_blank" rel="noopener noreferrer">Neoflex</a>, <a href="https://bellintegrator.ru/information/careers" target="_blank" rel="noopener noreferrer">Bell Integrator</a>, <a href="https://www.axenix.tech/career" target="_blank" rel="noopener noreferrer">Axenix</a>, <a href="https://www.norbit.ru/karera/vakansii/" target="_blank" rel="noopener noreferrer">НОРБИТ</a>, <a href="https://career.astondevs.ru/trainee" target="_blank" rel="noopener noreferrer">ASTON</a></div></li><li class="row careers"><strong>Мобильная разработка</strong><div><a href="https://internship.vk.company/" target="_blank" rel="noopener noreferrer">VK</a>, <a href="https://www.agima.ru/careers/" target="_blank" rel="noopener noreferrer">AGIMA</a>, <a href="https://e-legion.ru/about/career/" target="_blank" rel="noopener noreferrer">e-legion</a>, <a href="https://career.65apps.com/" target="_blank" rel="noopener noreferrer">65apps</a>, <a href="https://redmadrobot.ru/career" target="_blank" rel="noopener noreferrer">red_mad_robot</a>, <a href="https://surf.ru/internship/discuss/" target="_blank" rel="noopener noreferrer">Surf</a></div></li></ul></section></section><section class="source" data-platform="QA" data-kind="board"><h2>QA<span>Агрегаторы</span></h2><p class="note">Для части карточек hh.ru сведения взяты из открытой выдачи или копии объявления.</p><section class="group" data-career="false"><h3>Стажировки по автоматизации и нагрузочному тестированию</h3><ul><li class="row"><div class="role"><strong>Стажёр Python-разработчик-тестировщик</strong><span>ОТП Банк</span><span class="location">Москва, гибрид, 40 ч/нед.</span></div><p class="description">Автотесты платформы данных, веб-интерфейсы, Python и SQL.</p><div class="apply"><a href="https://hh.ru/vacancy/139124117" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://vakradar.ru/vacancy/139124117/" target="_blank" rel="noopener noreferrer">Описание</a></div></li><li class="row"><div class="role"><strong>Ученик / стажёр по автоматизации на Java</strong><span>Bell Integrator</span><span class="location">Обучение удалённо, после отбора офис в Москве</span></div><p class="description">Бесплатный курс на 1,5 месяца, затем финальный отбор на проект.</p><div class="apply"><a href="https://hh.ru/vacancy/139214075" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://dreamjob.ru/employers/53139/vakansii/139214075" target="_blank" rel="noopener noreferrer">Dream Job</a></div></li><li class="row"><div class="role"><strong>Стажёр по тестированию на Java</strong><span>ASTON</span><span class="location">Удалённо из городов без офиса ASTON</span></div><p class="description">Около 4 месяцев. Нужны основы Java, JUnit или TestNG и Selenium. Условия для Москвы нужно уточнить.</p><div class="apply"><a href="https://vaiti.tech/vacancy/66bf3943-9d6e-4f39-8028-b04b1873b361" target="_blank" rel="noopener noreferrer">ВАЙТИ</a></div></li><li class="row"><div class="role"><strong>Стажёр по тестированию безопасности</strong><span>R-Vision</span><span class="location">Удалённо, 40 ч/нед.</span></div><p class="description">6 месяцев. Поиск уязвимостей и автоматизация проверок. Нужны Python и чтение JS/TS.</p><div class="apply"><a href="https://hh.ru/vacancy/139162402" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://dreamjob.ru/employers/124853/vakansii/139162402" target="_blank" rel="noopener noreferrer">Dream Job</a></div></li></ul></section><section class="group" data-career="false"><h3>Мобильное тестирование без коммерческого опыта в QA</h3><ul><li class="row"><div class="role"><strong>Стажёр QA</strong><span>ОТП Банк</span><span class="location">Москва, полный день</span></div><p class="description">Ручные проверки мобильного банка и пользовательских сценариев.</p><div class="apply"><a href="https://hh.ru/vacancy/138494097" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://dreamjob.ru/employers/41482/vakansii/138494097" target="_blank" rel="noopener noreferrer">Dream Job</a></div></li><li class="row"><div class="role"><strong>Продуктовый QA Junior</strong><span>FunFlow</span><span class="location">Москва, офис</span></div><p class="description">Проверка новых функций и регресс мобильных продуктов. Подходит учебная практика.</p><div class="apply"><a href="https://hh.ru/vacancy/138980259" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://vakandia.ru/vacancy/produktovyy-qa-inzhener-junior-7266-2116421" target="_blank" rel="noopener noreferrer">Описание</a></div></li><li class="row"><div class="role"><strong>Тестировщик ПО</strong><span>Айтиспортс</span><span class="location">Москва, офис, возможен гибрид после испытательного срока</span></div><p class="description">Мобильные приложения, веб и API. Postman, DevTools. От 70 тыс. ₽ на руки.</p><div class="apply"><a href="https://hh.ru/vacancy/138708296" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://h.careers/job/d26c3c75-4a82-4522-99f2-17cdab476c5f" target="_blank" rel="noopener noreferrer">Эйч</a></div></li></ul></section><section class="group" data-career="false"><h3>Другие позиции без коммерческого опыта в QA</h3><ul><li class="row"><div class="role"><strong>Стажёр QA</strong><span>Mediascope</span><span class="location">Москва, офис, полный день</span></div><p class="description">Веб и API, 1,5 месяца. Для студентов ИТ-направлений. 40 тыс. ₽ до налогов.</p><div class="apply"><a href="https://hh.ru/vacancy/138181025" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://finder.work/vacancies/37095007" target="_blank" rel="noopener noreferrer">Описание</a></div></li><li class="row"><div class="role"><strong>Инженер по тестированию NGFW Junior</strong><span>Холдинг Ц1</span><span class="location">Москва, офис</span></div><p class="description">Проверки межсетевого экрана. Подойдёт учебная практика с Linux и сетями.</p><div class="apply"><a href="https://hh.ru/vacancy/138418927" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://finder.work/vacancies/36985961" target="_blank" rel="noopener noreferrer">Описание</a></div></li><li class="row"><div class="role"><strong>Стажёр-тестировщик 1С</strong><span>Bellerage</span><span class="location">Москва, офис</span></div><p class="description">Ручные проверки и Vanessa Automation. Для выпускников и старшекурсников технических направлений.</p><div class="apply"><a href="https://hh.ru/vacancy/138995579" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://finder.work/vacancies/37528782" target="_blank" rel="noopener noreferrer">Описание</a></div></li></ul></section><section class="group" data-career="false"><h3>Junior QA с опытом тестирования</h3><ul><li class="row"><div class="role"><strong>Junior Performance QA Engineer</strong><span>IBS</span><span class="location">Удалённо</span></div><p class="description">JMeter, Grafana или Prometheus. От 6 месяцев коммерческого нагрузочного тестирования.</p><div class="apply"><a href="https://career.habr.com/vacancies/1000168590" target="_blank" rel="noopener noreferrer">Хабр Карьера</a></div></li><li class="row"><div class="role"><strong>Junior QA, мобильные игры</strong><span>Azur Games</span><span class="location">Удалённо</span></div><p class="description">Ручные проверки Android-игр. От 6 месяцев тестирования в геймдеве.</p><div class="apply"><a href="https://hh.ru/vacancy/138601903" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://h.careers/job/a37aef11-1bf4-4df1-af1d-cd84e720d387" target="_blank" rel="noopener noreferrer">Эйч</a></div></li><li class="row"><div class="role"><strong>Junior QA Engineer, Manual + AI Automation</strong><span>Icons8</span><span class="location">Удалённо</span></div><p class="description">iOS, Android, веб и автотесты. От 6 месяцев коммерческого QA веба и API. От 50 тыс. ₽ до налогов.</p><div class="apply"><a href="https://hh.ru/vacancy/138954998" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://vakandia.ru/vacancy/junior-qa-engineer-manual-ai-automation-32509-2130226" target="_blank" rel="noopener noreferrer">Описание</a></div></li><li class="row"><div class="role"><strong>Junior QA Engineer</strong><span>Fix Price</span><span class="location">Москва</span></div><p class="description">Функциональные, интеграционные и API-проверки. От года ручного QA.</p><div class="apply"><a href="https://career.habr.com/vacancies/1000136675" target="_blank" rel="noopener noreferrer">Хабр Карьера</a></div></li></ul></section></section><section class="source" data-platform="iOS" data-kind="direct"><h2>iOS<span>Прямой отклик</span></h2><section class="group" data-career="false"><h3>Для начинающих</h3><ul><li class="row"><div class="role"><strong>Стажёр iOS-разработчик</strong><span>Яндекс</span><span class="location">Москва · 20–40 ч/нед.</span></div><p class="description">Оплачивается, 3–6 месяцев. Swift, алгоритмы. Подходит учебное приложение.</p><div class="apply"><a href="https://forms.yandex.ru/surveys/13813934.a8efc412412a98f86d8d491feed564200b8b5aee/" target="_blank" rel="noopener noreferrer">Анкета, выбрать iOS</a> · <a href="https://yandex.ru/yaintern/mobile" target="_blank" rel="noopener noreferrer">условия</a></div></li><li class="row"><div class="role"><strong>Junior iOS-разработчик</strong><span>DigitalCraft</span><span class="location">Москва · полный день</span></div><p class="description">Коммерческая практика без указанного срока. Swift, iOS SDK, Git и знание архитектурных паттернов.</p><div class="apply"><a href="https://project5851425.tilda.ws/page29344734.html" target="_blank" rel="noopener noreferrer">Карточка с формой</a> · <a href="https://digital-craft.pro/vakansii" target="_blank" rel="noopener noreferrer">сайт работодателя</a></div></li></ul></section><section class="group" data-career="false"><h3>Вакансия с опытом от двух лет</h3><ul><li class="row"><div class="role"><strong>iOS-разработчик</strong><span>SberDevices</span><span class="location">Обсуждается с командой</span></div><p class="description">От двух лет iOS. Swift, многопоточность, unit-тесты.</p><div class="apply"><a href="https://sberdevices.ru/career/IOS/" target="_blank" rel="noopener noreferrer">Вакансия и почта HR</a></div></li></ul></section><section class="group" data-career="false"><h3>Программы без даты старта</h3><ul><li class="row"><div class="role"><strong>Стажировка iOS</strong><span>KTS</span><span class="location">Москва или удалённо</span></div><p class="description">Swift, iOS SDK, вёрстка на UIKit/SwiftUI. Готовность освоить Kotlin Multiplatform.</p><div class="apply"><a href="https://events.kts.tech/career" target="_blank" rel="noopener noreferrer">Условия</a> · <a href="https://t.me/kts_hr_talent_bot" target="_blank" rel="noopener noreferrer">бот работодателя</a></div></li><li class="row"><div class="role"><strong>Индивидуальная стажировка iOS</strong><span>KODE</span><span class="location">Удалёнку нужно уточнить</span></div><p class="description">Менторство, Swift, сеть и многопоточность. Анкеты принимают круглый год в кадровый резерв. Стажировка без оплаты.</p><div class="apply"><a href="https://edu.kode.ru/mentoringinternship" target="_blank" rel="noopener noreferrer">Анкета, выбрать iOS</a> · <a href="https://edu.kode.ru/" target="_blank" rel="noopener noreferrer">условия</a></div></li><li class="row"><div class="role"><strong>Стажировка iOS</strong><span>Т1</span><span class="location">По программе — удалённо или гибрид, 30–40 ч/нед.</span></div><p class="description">Для студентов технических направлений. Swift и примеры учебных приложений. Анкета на следующий набор.</p><div class="apply"><a href="https://career.t1.ru/debut/internship/ios_developer" target="_blank" rel="noopener noreferrer">Анкета с резюме</a></div></li><li class="row"><div class="role"><strong>Стажировка iOS</strong><span>Surf</span><span class="location">Удалёнку нужно уточнить</span></div><p class="description">Общая анкета. Дата старта iOS-потока не опубликована.</p><div class="apply"><a href="https://surf.ru/internship/discuss/" target="_blank" rel="noopener noreferrer">Анкета</a> · <a href="https://surfstudio.github.io/Surf-iOS-Developers/ru/Docs/Hiring/students.html" target="_blank" rel="noopener noreferrer">iOS-направление</a></div></li></ul></section></section><section class="source" data-platform="iOS" data-kind="board"><h2>iOS<span>Агрегаторы</span></h2><p class="note">В этой подборке агрегаторов есть вакансии, отдельного открытого набора на стажировку не нашлось.</p><section class="group" data-career="false"><h3>Вакансии на агрегаторах</h3><ul><li class="row"><div class="role"><strong>Junior iOS Developer</strong><span>Александр Кушнарёв, команда мобильных продуктов</span><span class="location">Удалённо</span></div><p class="description">Swift, SwiftUI или UIKit, REST API, StoreKit. От года опыта или сильное портфолио. 80–130 тыс. ₽/мес.</p><div class="apply"><a href="https://h.careers/job/9e1fcb26-0efa-422f-bcd2-26781fd1cfc9" target="_blank" rel="noopener noreferrer">Эйч</a> · <a href="https://hh.ru/vacancy/138322312" target="_blank" rel="noopener noreferrer">hh.ru</a></div></li><li class="row"><div class="role"><strong>SwiftUI-разработчик</strong><span>Broad Apps</span><span class="location">Удалённо</span></div><p class="description">Разработка приложений, подписки и релизы в App Store. От года продуктовой разработки на SwiftUI. 80–110 тыс. ₽ на руки.</p><div class="apply"><a href="https://hh.ru/vacancy/138932802" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://dreamjob.ru/employers/2667975/vakansii/138932802" target="_blank" rel="noopener noreferrer">Dream Job</a></div></li><li class="row"><div class="role"><strong>iOS-разработчик</strong><span>Софт коллекция</span><span class="location">Москва, гибрид</span></div><p class="description">Банковские приложения на Swift и Objective-C. От двух лет коммерческой iOS-разработки. До 180 тыс. ₽/мес.</p><div class="apply"><a href="https://hh.ru/vacancy/138477539" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://finder.work/vacancies/36954805" target="_blank" rel="noopener noreferrer">Описание</a></div></li></ul></section></section><section class="source" data-platform="Android" data-kind="direct"><h2>Android<span>Прямой отклик</span></h2><section class="group" data-career="false"><h3>Для начинающих</h3><ul><li class="row"><div class="role"><strong>Стажёр Android-разработчик</strong><span>Яндекс</span><span class="location">Москва · 20–40 ч/нед.</span></div><p class="description">Оплачивается, 3–6 месяцев. Kotlin/Java, алгоритмы. Подходит учебное приложение.</p><div class="apply"><a href="https://forms.yandex.ru/surveys/13813934.a8efc412412a98f86d8d491feed564200b8b5aee/" target="_blank" rel="noopener noreferrer">Анкета, выбрать Android</a> · <a href="https://yandex.ru/yaintern/mobile" target="_blank" rel="noopener noreferrer">условия</a></div></li><li class="row"><div class="role"><strong>Стажёр Android-разработчик, «Мой МТС»</strong><span>МТС Веб Сервисы</span><span class="location">Москва · гибрид, 20–40 ч/нед.</span></div><p class="description">Студенты 3–6 курсов. Kotlin или Java, Android SDK, Compose и Git.</p><div class="apply"><a href="https://job.mts.ru/vacancy/716200056801201384" target="_blank" rel="noopener noreferrer">Вакансия</a></div></li><li class="row"><div class="role"><strong>Junior Android-разработчик</strong><span>Резольвента</span><span class="location">Удалённо</span></div><p class="description">База Kotlin/Java, сервисы Android, Retrofit, Dagger 2 и английский для чтения документации.</p><div class="apply"><a href="https://resolventa.dev/vacancies" target="_blank" rel="noopener noreferrer">Вакансия и форма</a></div></li></ul></section><section class="group" data-career="false"><h3>Вакансия с опытом от года</h3><ul><li class="row"><div class="role"><strong>Android-разработчик</strong><span>DigitalCraft</span><span class="location">Москва · полный день</span></div><p class="description">В карточке 1–3 года опыта. Kotlin и практика с WebView.</p><div class="apply"><a href="https://project5851425.tilda.ws/page29343736.html" target="_blank" rel="noopener noreferrer">Карточка с формой</a> · <a href="https://digital-craft.pro/vakansii" target="_blank" rel="noopener noreferrer">сайт работодателя</a></div></li></ul></section><section class="group" data-career="false"><h3>Программы без даты старта</h3><ul><li class="row"><div class="role"><strong>Стажировка Android</strong><span>KTS</span><span class="location">Москва или удалённо</span></div><p class="description">Kotlin, Android SDK и Coroutines. В команде используют Compose и Kotlin Multiplatform.</p><div class="apply"><a href="https://events.kts.tech/career" target="_blank" rel="noopener noreferrer">Условия</a> · <a href="https://t.me/kts_hr_talent_bot" target="_blank" rel="noopener noreferrer">бот работодателя</a></div></li><li class="row"><div class="role"><strong>Индивидуальная стажировка Android</strong><span>KODE</span><span class="location">Удалёнку нужно уточнить</span></div><p class="description">Менторство, Kotlin, Android SDK. Анкеты принимают круглый год в кадровый резерв. Стажировка без оплаты.</p><div class="apply"><a href="https://edu.kode.ru/mentoringinternship" target="_blank" rel="noopener noreferrer">Анкета, выбрать Android</a> · <a href="https://edu.kode.ru/" target="_blank" rel="noopener noreferrer">условия</a></div></li><li class="row"><div class="role"><strong>Стажировка Android</strong><span>Т1</span><span class="location">По программе — удалённо или гибрид, 30–40 ч/нед.</span></div><p class="description">База Kotlin/Java и архитектура Android-приложений. Анкета на следующий набор.</p><div class="apply"><a href="https://career.t1.ru/debut/internship/android_developer" target="_blank" rel="noopener noreferrer">Анкета с резюме</a></div></li><li class="row"><div class="role"><strong>Стажировка Android</strong><span>Surf</span><span class="location">Удалёнку нужно уточнить</span></div><p class="description">Общая анкета. Дата старта Android-потока не опубликована.</p><div class="apply"><a href="https://surf.ru/internship/discuss/" target="_blank" rel="noopener noreferrer">Анкета</a></div></li></ul></section></section><section class="source" data-platform="Android" data-kind="board"><h2>Android<span>Агрегаторы</span></h2><section class="group" data-career="false"><h3>Для начинающих</h3><ul><li class="row"><div class="role"><strong>Android-разработчик</strong><span>Км-Альянс</span><span class="location">Зеленоград, офис</span></div><p class="description">Приложения для платёжных терминалов. Достаточно базовых Java/Kotlin и небольшой практики на Android. Для студентов от 20 ч/нед. 70–100 тыс. ₽ до налогов.</p><div class="apply"><a href="https://hh.ru/vacancy/137974944" target="_blank" rel="noopener noreferrer">hh.ru</a> · <a href="https://dreamjob.ru/employers/2522216/vakansii/137974944" target="_blank" rel="noopener noreferrer">Dream Job</a></div></li></ul></section><section class="group" data-career="false"><h3>С опытом от года</h3><ul><li class="row"><div class="role"><strong>Android-разработчик</strong><span>ГКС</span><span class="location">Москва, офис или удалённо</span></div><p class="description">Kotlin, Compose или XML, REST API. Нужна практика релизов в Google Play. В карточке указан опыт 1–3 года.</p><div class="apply"><a href="https://dreamjob.ru/employers/4021297/vakansii/138437264" target="_blank" rel="noopener noreferrer">Dream Job</a> · <a href="https://hh.ru/vacancy/138437264" target="_blank" rel="noopener noreferrer">hh.ru</a></div></li><li class="row"><div class="role"><strong>Android-разработчик мобильной платформы</strong><span>МТС Банк</span><span class="location">Москва, офис</span></div><p class="description">Kotlin, Compose, Coroutines/Flow и Dagger 2. Инструменты для продуктовых команд. От двух лет коммерческого опыта.</p><div class="apply"><a href="https://career.habr.com/vacancies/1000167375" target="_blank" rel="noopener noreferrer">Хабр Карьера</a></div></li></ul></section></section></div>
+<header class="hero">
+  <div class="wrap">
+    <h1><span>Стажировки и</span><span>Junior-вакансии</span></h1>
+    <p class="hero-copy"><span>Москва и область.</span> <span>Удалённая работа по России.</span></p>
+    <p class="chooser-title" id="choose" tabindex="-1">Выберите направление</p>
+    <nav class="chooser" aria-labelledby="choose">
+      <a class="choice" href="#ios"><span class="choice-name">iOS</span><span class="choice-copy">Swift и iOS SDK</span><span class="choice-arrow" aria-hidden="true">↗</span></a>
+      <a class="choice" href="#android"><span class="choice-name">Android</span><span class="choice-copy">Kotlin и Android SDK</span><span class="choice-arrow" aria-hidden="true">↗</span></a>
+      <a class="choice" href="#qa"><span class="choice-name">QA</span><span class="choice-copy">Ручное тестирование и автотесты</span><span class="choice-arrow" aria-hidden="true">↗</span></a>
+    </nav>
+    <p class="edition">Подборка от <time datetime="2026-11-07">7 ноября 2026 года</time></p>
+  </div>
+</header>
+<main class="wrap" id="listings">
+    <section class="track-panel" id="ios" aria-labelledby="ios-title">
+      <a class="back-to-choices" href="#choose">↑ Все направления</a>
+      <div class="track-header">
+        <h2 id="ios-title" tabindex="-1">iOS</h2>
+        <form class="search" role="search" hidden>
+          <label>Поиск по направлению<input type="search" placeholder="Компания, роль или навык"></label>
+        </form>
+      </div>
+      <p class="results" aria-live="polite" hidden></p>
+      <section class="source">
+        <h3 class="source-heading">Прямые отклики</h3>
+        <p class="note no-direct" hidden>По этому запросу нет прямых откликов.</p>
+        <section class="group">
+          <h4>Для начинающих</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Стажёр iOS-разработчик</strong><span>Яндекс</span><span class="location">Москва · 20–40 ч/нед.</span></div><p class="description">Оплачивается, 3–6 месяцев. Swift, алгоритмы. Подходит учебное приложение.</p>
+            <div class="row-actions"><div class="apply"><a href="https://forms.yandex.ru/surveys/13813934.a8efc412412a98f86d8d491feed564200b8b5aee/" target="_blank" rel="noopener noreferrer">Анкета, выбрать iOS<span class="visited" hidden>Открывали</span></a> <a href="https://yandex.ru/yaintern/mobile" target="_blank" rel="noopener noreferrer">условия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="iOS:https://forms.yandex.ru/surveys/13813934.a8efc412412a98f86d8d491feed564200b8b5aee/" aria-label="Откликнулся: Стажёр iOS-разработчик — Яндекс"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Junior iOS-разработчик</strong><span>DigitalCraft</span><span class="location">Москва · полный день</span></div><p class="description">Коммерческая практика без указанного срока. Swift, iOS SDK, Git и знание архитектурных паттернов.</p>
+            <div class="row-actions"><div class="apply"><a href="https://project5851425.tilda.ws/page29344734.html" target="_blank" rel="noopener noreferrer">Карточка с формой<span class="visited" hidden>Открывали</span></a> <a href="https://digital-craft.pro/vakansii" target="_blank" rel="noopener noreferrer">сайт работодателя<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="iOS:https://project5851425.tilda.ws/page29344734.html" aria-label="Откликнулся: Junior iOS-разработчик — DigitalCraft"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Вакансия с опытом от двух лет</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>iOS-разработчик</strong><span>SberDevices</span><span class="location">Обсуждается с командой</span></div><p class="description">От двух лет iOS. Swift, многопоточность, unit-тесты.</p>
+            <div class="row-actions"><div class="apply"><a href="https://sberdevices.ru/career/IOS/" target="_blank" rel="noopener noreferrer">Вакансия и почта HR<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="iOS:https://sberdevices.ru/career/IOS/" aria-label="Откликнулся: iOS-разработчик — SberDevices"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Программы без даты старта</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Стажировка iOS</strong><span>KTS</span><span class="location">Москва или удалённо</span></div><p class="description">Swift, iOS SDK, вёрстка на UIKit/SwiftUI. Готовность освоить Kotlin Multiplatform.</p>
+            <div class="row-actions"><div class="apply"><a href="https://events.kts.tech/career" target="_blank" rel="noopener noreferrer">Условия<span class="visited" hidden>Открывали</span></a> <a href="https://t.me/kts_hr_talent_bot" target="_blank" rel="noopener noreferrer">бот работодателя<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Индивидуальная стажировка iOS</strong><span>KODE</span><span class="location">Удалёнку нужно уточнить</span></div><p class="description">Менторство, Swift, сеть и многопоточность. Анкеты принимают круглый год в кадровый резерв. Стажировка без оплаты.</p>
+            <div class="row-actions"><div class="apply"><a href="https://edu.kode.ru/mentoringinternship" target="_blank" rel="noopener noreferrer">Анкета, выбрать iOS<span class="visited" hidden>Открывали</span></a> <a href="https://edu.kode.ru/" target="_blank" rel="noopener noreferrer">условия<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажировка iOS</strong><span>Т1</span><span class="location">По программе — удалённо или гибрид, 30–40 ч/нед.</span></div><p class="description">Для студентов технических направлений. Swift и примеры учебных приложений. Анкета на следующий набор.</p>
+            <div class="row-actions"><div class="apply"><a href="https://career.t1.ru/debut/internship/ios_developer" target="_blank" rel="noopener noreferrer">Анкета с резюме<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажировка iOS</strong><span>Surf</span><span class="location">Удалёнку нужно уточнить</span></div><p class="description">Общая анкета. Дата старта iOS-потока не опубликована.</p>
+            <div class="row-actions"><div class="apply"><a href="https://surf.ru/internship/discuss/" target="_blank" rel="noopener noreferrer">Анкета<span class="visited" hidden>Открывали</span></a> <a href="https://surfstudio.github.io/Surf-iOS-Developers/ru/Docs/Hiring/students.html" target="_blank" rel="noopener noreferrer">iOS-направление<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          </ul>
+        </section>
+      </section>
+      <details class="secondary">
+        <summary><span class="secondary-title">Вакансии на агрегаторах</span>
+          <span class="secondary-count">3 вакансии</span></summary>
+        <div class="secondary-body">
+<p class="note">В этой подборке агрегаторов есть вакансии, отдельного открытого набора на стажировку не нашлось.</p>
+        <section class="group">
+          <h4>Вакансии на агрегаторах</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Junior iOS Developer</strong><span>Александр Кушнарёв, команда мобильных продуктов</span><span class="location">Удалённо</span></div><p class="description">Swift, SwiftUI или UIKit, REST API, StoreKit. От года опыта или сильное портфолио. 80–130 тыс. ₽/мес.</p>
+            <div class="row-actions"><div class="apply"><a href="https://h.careers/job/9e1fcb26-0efa-422f-bcd2-26781fd1cfc9" target="_blank" rel="noopener noreferrer">Эйч<span class="visited" hidden>Открывали</span></a> <a href="https://hh.ru/vacancy/138322312" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="iOS:https://h.careers/job/9e1fcb26-0efa-422f-bcd2-26781fd1cfc9" aria-label="Откликнулся: Junior iOS Developer — Александр Кушнарёв, команда мобильных продуктов"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>SwiftUI-разработчик</strong><span>Broad Apps</span><span class="location">Удалённо</span></div><p class="description">Разработка приложений, подписки и релизы в App Store. От года продуктовой разработки на SwiftUI. 80–110 тыс. ₽ на руки.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138932802" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://dreamjob.ru/employers/2667975/vakansii/138932802" target="_blank" rel="noopener noreferrer">Dream Job<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="iOS:https://hh.ru/vacancy/138932802" aria-label="Откликнулся: SwiftUI-разработчик — Broad Apps"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>iOS-разработчик</strong><span>Софт коллекция</span><span class="location">Москва, гибрид</span></div><p class="description">Банковские приложения на Swift и Objective-C. От двух лет коммерческой iOS-разработки. До 180 тыс. ₽/мес.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138477539" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://finder.work/vacancies/36954805" target="_blank" rel="noopener noreferrer">Описание<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="iOS:https://hh.ru/vacancy/138477539" aria-label="Откликнулся: iOS-разработчик — Софт коллекция"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        </div>
+      </details>
+      <p class="storage-note" hidden>Отметки сохраняются только в этом браузере.</p>
+    </section>
+    <section class="track-panel" id="android" aria-labelledby="android-title">
+      <a class="back-to-choices" href="#choose">↑ Все направления</a>
+      <div class="track-header">
+        <h2 id="android-title" tabindex="-1">Android</h2>
+        <form class="search" role="search" hidden>
+          <label>Поиск по направлению<input type="search" placeholder="Компания, роль или навык"></label>
+        </form>
+      </div>
+      <p class="results" aria-live="polite" hidden></p>
+      <section class="source">
+        <h3 class="source-heading">Прямые отклики</h3>
+        <p class="note no-direct" hidden>По этому запросу нет прямых откликов.</p>
+        <section class="group">
+          <h4>Для начинающих</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Стажёр Android-разработчик</strong><span>Яндекс</span><span class="location">Москва · 20–40 ч/нед.</span></div><p class="description">Оплачивается, 3–6 месяцев. Kotlin/Java, алгоритмы. Подходит учебное приложение.</p>
+            <div class="row-actions"><div class="apply"><a href="https://forms.yandex.ru/surveys/13813934.a8efc412412a98f86d8d491feed564200b8b5aee/" target="_blank" rel="noopener noreferrer">Анкета, выбрать Android<span class="visited" hidden>Открывали</span></a> <a href="https://yandex.ru/yaintern/mobile" target="_blank" rel="noopener noreferrer">условия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="Android:https://forms.yandex.ru/surveys/13813934.a8efc412412a98f86d8d491feed564200b8b5aee/" aria-label="Откликнулся: Стажёр Android-разработчик — Яндекс"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр Android-разработчик, «Мой МТС»</strong><span>МТС Веб Сервисы</span><span class="location">Москва · гибрид, 20–40 ч/нед.</span></div><p class="description">Студенты 3–6 курсов. Kotlin или Java, Android SDK, Compose и Git.</p>
+            <div class="row-actions"><div class="apply"><a href="https://job.mts.ru/vacancy/716200056801201384" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="Android:https://job.mts.ru/vacancy/716200056801201384" aria-label="Откликнулся: Стажёр Android-разработчик, «Мой МТС» — МТС Веб Сервисы"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Junior Android-разработчик</strong><span>Резольвента</span><span class="location">Удалённо</span></div><p class="description">База Kotlin/Java, сервисы Android, Retrofit, Dagger 2 и английский для чтения документации.</p>
+            <div class="row-actions"><div class="apply"><a href="https://resolventa.dev/vacancies" target="_blank" rel="noopener noreferrer">Вакансия и форма<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="Android:https://resolventa.dev/vacancies" aria-label="Откликнулся: Junior Android-разработчик — Резольвента"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Вакансия с опытом от года</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Android-разработчик</strong><span>DigitalCraft</span><span class="location">Москва · полный день</span></div><p class="description">В карточке 1–3 года опыта. Kotlin и практика с WebView.</p>
+            <div class="row-actions"><div class="apply"><a href="https://project5851425.tilda.ws/page29343736.html" target="_blank" rel="noopener noreferrer">Карточка с формой<span class="visited" hidden>Открывали</span></a> <a href="https://digital-craft.pro/vakansii" target="_blank" rel="noopener noreferrer">сайт работодателя<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="Android:https://project5851425.tilda.ws/page29343736.html" aria-label="Откликнулся: Android-разработчик — DigitalCraft"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Программы без даты старта</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Стажировка Android</strong><span>KTS</span><span class="location">Москва или удалённо</span></div><p class="description">Kotlin, Android SDK и Coroutines. В команде используют Compose и Kotlin Multiplatform.</p>
+            <div class="row-actions"><div class="apply"><a href="https://events.kts.tech/career" target="_blank" rel="noopener noreferrer">Условия<span class="visited" hidden>Открывали</span></a> <a href="https://t.me/kts_hr_talent_bot" target="_blank" rel="noopener noreferrer">бот работодателя<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Индивидуальная стажировка Android</strong><span>KODE</span><span class="location">Удалёнку нужно уточнить</span></div><p class="description">Менторство, Kotlin, Android SDK. Анкеты принимают круглый год в кадровый резерв. Стажировка без оплаты.</p>
+            <div class="row-actions"><div class="apply"><a href="https://edu.kode.ru/mentoringinternship" target="_blank" rel="noopener noreferrer">Анкета, выбрать Android<span class="visited" hidden>Открывали</span></a> <a href="https://edu.kode.ru/" target="_blank" rel="noopener noreferrer">условия<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажировка Android</strong><span>Т1</span><span class="location">По программе — удалённо или гибрид, 30–40 ч/нед.</span></div><p class="description">База Kotlin/Java и архитектура Android-приложений. Анкета на следующий набор.</p>
+            <div class="row-actions"><div class="apply"><a href="https://career.t1.ru/debut/internship/android_developer" target="_blank" rel="noopener noreferrer">Анкета с резюме<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажировка Android</strong><span>Surf</span><span class="location">Удалёнку нужно уточнить</span></div><p class="description">Общая анкета. Дата старта Android-потока не опубликована.</p>
+            <div class="row-actions"><div class="apply"><a href="https://surf.ru/internship/discuss/" target="_blank" rel="noopener noreferrer">Анкета<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          </ul>
+        </section>
+      </section>
+      <details class="secondary">
+        <summary><span class="secondary-title">Вакансии на агрегаторах</span>
+          <span class="secondary-count">3 вакансии</span></summary>
+        <div class="secondary-body">
+
+        <section class="group">
+          <h4>Для начинающих</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Android-разработчик</strong><span>Км-Альянс</span><span class="location">Зеленоград, офис</span></div><p class="description">Приложения для платёжных терминалов. Достаточно базовых Java/Kotlin и небольшой практики на Android. Для студентов от 20 ч/нед. 70–100 тыс. ₽ до налогов.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/137974944" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://dreamjob.ru/employers/2522216/vakansii/137974944" target="_blank" rel="noopener noreferrer">Dream Job<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="Android:https://hh.ru/vacancy/137974944" aria-label="Откликнулся: Android-разработчик — Км-Альянс"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>С опытом от года</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Android-разработчик</strong><span>ГКС</span><span class="location">Москва, офис или удалённо</span></div><p class="description">Kotlin, Compose или XML, REST API. Нужна практика релизов в Google Play. В карточке указан опыт 1–3 года.</p>
+            <div class="row-actions"><div class="apply"><a href="https://dreamjob.ru/employers/4021297/vakansii/138437264" target="_blank" rel="noopener noreferrer">Dream Job<span class="visited" hidden>Открывали</span></a> <a href="https://hh.ru/vacancy/138437264" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="Android:https://dreamjob.ru/employers/4021297/vakansii/138437264" aria-label="Откликнулся: Android-разработчик — ГКС"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Android-разработчик мобильной платформы</strong><span>МТС Банк</span><span class="location">Москва, офис</span></div><p class="description">Kotlin, Compose, Coroutines/Flow и Dagger 2. Инструменты для продуктовых команд. От двух лет коммерческого опыта.</p>
+            <div class="row-actions"><div class="apply"><a href="https://career.habr.com/vacancies/1000167375" target="_blank" rel="noopener noreferrer">Хабр Карьера<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="Android:https://career.habr.com/vacancies/1000167375" aria-label="Откликнулся: Android-разработчик мобильной платформы — МТС Банк"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        </div>
+      </details>
+      <p class="storage-note" hidden>Отметки сохраняются только в этом браузере.</p>
+    </section>
+    <section class="track-panel" id="qa" aria-labelledby="qa-title">
+      <a class="back-to-choices" href="#choose">↑ Все направления</a>
+      <div class="track-header">
+        <h2 id="qa-title" tabindex="-1">QA</h2>
+        <form class="search" role="search" hidden>
+          <label>Поиск по направлению<input type="search" placeholder="Компания, роль или навык"></label>
+        </form>
+      </div>
+      <p class="results" aria-live="polite" hidden></p>
+      <section class="source">
+        <h3 class="source-heading">Прямые отклики</h3>
+        <p class="note no-direct" hidden>По этому запросу нет прямых откликов.</p>
+        <section class="group">
+          <h4>Стажировки и Junior QA</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Junior QA Automation</strong><span>VK · МАХ</span><span class="location">Москва · гибрид, 40 ч/нед.</span></div><p class="description">Автотесты интерфейса десктопного МАХ. Kotlin, Appium, Git, диагностика падений.</p>
+            <div class="row-actions"><div class="apply"><a href="https://internship.vk.company/vacancy/1467" target="_blank" rel="noopener noreferrer">Форма с резюме<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://internship.vk.company/vacancy/1467" aria-label="Откликнулся: Junior QA Automation — VK · МАХ"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>AQA (Java), поиск СберБанк Онлайн</strong><span>Сбер</span><span class="location">Москва · гибрид</span></div><p class="description">Ручные проверки поиска в мобильном приложении и вебе. Коммерческий опыт и Java указаны как плюсы.</p>
+            <div class="row-actions"><div class="apply"><a href="https://rabota.sber.ru/search/aqa-java-4579297/" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://rabota.sber.ru/search/aqa-java-4579297/" aria-label="Откликнулся: AQA (Java), поиск СберБанк Онлайн — Сбер"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр AQA, MWS Octapi</strong><span>МТС Web Services</span><span class="location">Москва · гибрид, 30–40 ч/нед.</span></div><p class="description">Python, Playwright, Postman и ручные проверки. Для студентов 3–6 курсов или магистратуры.</p>
+            <div class="row-actions"><div class="apply"><a href="https://job.mts.ru/vacancy/724270740890717407" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://job.mts.ru/vacancy/724270740890717407" aria-label="Откликнулся: Стажёр AQA, MWS Octapi — МТС Web Services"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр AQA, 5G Signaling</strong><span>МТС Web Services</span><span class="location">Москва · гибрид, от 20 ч/нед.</span></div><p class="description">Ручные и автоматизированные проверки ядра 5G. Python, Linux, базовый SQL.</p>
+            <div class="row-actions"><div class="apply"><a href="https://job.mts.ru/vacancy/721716963407036734" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://job.mts.ru/vacancy/721716963407036734" aria-label="Откликнулся: Стажёр AQA, 5G Signaling — МТС Web Services"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр AQA, группа обеспечения качества</strong><span>МТС Web Services</span><span class="location">Москва · гибрид</span></div><p class="description">Ручные, нагрузочные и Python-автотесты веба и бэкенда. Для старших курсов, нужны SQL, REST и основы Kafka/RabbitMQ.</p>
+            <div class="row-actions"><div class="apply"><a href="https://job.mts.ru/vacancy/697479947693850910" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://job.mts.ru/vacancy/697479947693850910" aria-label="Откликнулся: Стажёр AQA, группа обеспечения качества — МТС Web Services"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр AQA, DevRails</strong><span>МТС Web Services</span><span class="location">Москва · гибрид, 40 ч/нед.</span></div><p class="description">Python/pytest для API, Playwright для UI. Для старших курсов, нужны SQL, Git и практика с Kafka.</p>
+            <div class="row-actions"><div class="apply"><a href="https://job.mts.ru/vacancy/720207521234570448" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://job.mts.ru/vacancy/720207521234570448" aria-label="Откликнулся: Стажёр AQA, DevRails — МТС Web Services"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр Manual QA</strong><span>Яндекс</span><span class="location">Москва · 20–40 ч/нед.</span></div><p class="description">Оплачивается, 3–6 мес. Отбор через Контест.</p>
+            <div class="row-actions"><div class="apply"><a href="https://forms.yandex.ru/surveys/13884070.e6785b1c8b3dee093caa9a792f35b10ee9297e94/" target="_blank" rel="noopener noreferrer">Анкета<span class="visited" hidden>Открывали</span></a> <a href="https://yandex.ru/yaintern/qa" target="_blank" rel="noopener noreferrer">условия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://forms.yandex.ru/surveys/13884070.e6785b1c8b3dee093caa9a792f35b10ee9297e94/" aria-label="Откликнулся: Стажёр Manual QA — Яндекс"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр AQA</strong><span>Яндекс</span><span class="location">Москва · 20–40 ч/нед.</span></div><p class="description">Оплачивается, 3–6 мес. Автотесты и задание в Контесте.</p>
+            <div class="row-actions"><div class="apply"><a href="https://forms.yandex.ru/surveys/13723799.944f5a80506b89f9cb0f25bf21e2a1097fe8effa/" target="_blank" rel="noopener noreferrer">Анкета AQA<span class="visited" hidden>Открывали</span></a> <a href="https://yandex.ru/yaintern/qa" target="_blank" rel="noopener noreferrer">условия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://forms.yandex.ru/surveys/13723799.944f5a80506b89f9cb0f25bf21e2a1097fe8effa/" aria-label="Откликнулся: Стажёр AQA — Яндекс"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр QA</strong><span>Айтулабс</span><span class="location">Удалённо</span></div><p class="description">Регресс и приёмка коммуникационной платформы. Подходят выпускники курсов. В письме укажите город и зарплатные ожидания.</p>
+            <div class="row-actions"><div class="apply"><a href="https://itoolabs.huntflow.io/vacancy/testirovshchik-stazher-3" target="_blank" rel="noopener noreferrer">Форма с резюме<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://itoolabs.huntflow.io/vacancy/testirovshchik-stazher-3" aria-label="Откликнулся: Стажёр QA — Айтулабс"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Trainee / Junior Manual QA</strong><span>SMYT</span><span class="location">Удалённо · полный день</span></div><p class="description">Оплачиваемая стажировка с наставником. Веб, тест-кейсы, баг-репорты. Нужны теория QA и английский.</p>
+            <div class="row-actions"><div class="apply"><a href="https://careers.smyt.ru/vacancies/qa-engineer-all-j/" target="_blank" rel="noopener noreferrer">Форма с резюме<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://careers.smyt.ru/vacancies/qa-engineer-all-j/" aria-label="Откликнулся: Trainee / Junior Manual QA — SMYT"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Junior QA, мобильное ПО</strong><span>Клеверенс</span><span class="location">Москва · офис</span></div><p class="description">Android, Windows CE/Mobile, Jira, TestRail. Нужно высшее или неоконченное техническое. 50–70 тыс. ₽ на руки.</p>
+            <div class="row-actions"><div class="apply"><a href="https://www.cleverence.ru/solutions/vakansii/#rec2886559201" target="_blank" rel="noopener noreferrer">Карточка<span class="visited" hidden>Открывали</span></a> <a href="mailto:hr@cleverence.ru" target="_blank" rel="noopener noreferrer">резюме по почте<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://www.cleverence.ru/solutions/vakansii/#rec2886559201" aria-label="Откликнулся: Junior QA, мобильное ПО — Клеверенс"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Тестировщик ПО</strong><span>Тензор</span><span class="location">Удалённо</span></div><p class="description">Регресс и исследовательское тестирование Saby. Берут после курсов или самообучения. 58–101 тыс. ₽.</p>
+            <div class="row-actions"><div class="apply"><a href="https://tensor.ru/about/devcenter/72/481462257" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://tensor.ru/about/devcenter/72/481462257" aria-label="Откликнулся: Тестировщик ПО — Тензор"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Ozon Tech</h4><p class="note">Стажировки с полной занятостью. <a href="https://ozon.tech/internship/" target="_blank" rel="noopener noreferrer">Условия программы<span class="visited" hidden>Открывали</span></a>.</p>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Ozon Travel · стажёр QA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Ручные проверки бронирования и автотесты. REST API, Postman/curl и основы Go, TypeScript или Python.</p>
+            <div class="row-actions"><div class="apply"><a href="https://ozon.tech/vacancies/3cf0ded9-06c1-4485-a1a1-fdd91ca18075-stazhior-inzhener-po-testirovaniiu-trevel/" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://ozon.tech/vacancies/3cf0ded9-06c1-4485-a1a1-fdd91ca18075-stazhior-inzhener-po-testirovaniiu-trevel/" aria-label="Откликнулся: Ozon Travel · стажёр QA — Ozon Tech"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Логистика · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Python, pytest, Allure. Ручные проверки фронтенда и бэкенда, автотесты.</p>
+            <div class="row-actions"><div class="apply"><a href="https://ozon.tech/vacancies/0bb923dc-ff55-485c-bf6e-827547c6a629/" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://ozon.tech/vacancies/0bb923dc-ff55-485c-bf6e-827547c6a629/" aria-label="Откликнулся: Логистика · стажёр AQA — Ozon Tech"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Внутрискладской трекинг · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Python, REST/gRPC, Postman или curl. Ручные, автоматизированные и нагрузочные проверки.</p>
+            <div class="row-actions"><div class="apply"><a href="https://ozon.tech/vacancies/7332f67c-b178-441f-b2e6-f679deb0fb72" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://ozon.tech/vacancies/7332f67c-b178-441f-b2e6-f679deb0fb72" aria-label="Откликнулся: Внутрискладской трекинг · стажёр AQA — Ozon Tech"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Обработка проблемного товара · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Веб-автотесты на TypeScript и Playwright. Подойдёт знакомство с аналогичными инструментами.</p>
+            <div class="row-actions"><div class="apply"><a href="https://ozon.tech/vacancies/c906c86b-13b6-4d01-9fab-d5e17110ba22-stazhior-inzhener-po-avtomatizatsii-testirovaniia-javascript-obrabotka-problemnogo-tovara/" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://ozon.tech/vacancies/c906c86b-13b6-4d01-9fab-d5e17110ba22-stazhior-inzhener-po-avtomatizatsii-testirovaniia-javascript-obrabotka-problemnogo-tovara/" aria-label="Откликнулся: Обработка проблемного товара · стажёр AQA — Ozon Tech"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Ценообразование селлеров · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Автотесты на Go. Нужны практика REST API и SQL с JOIN.</p>
+            <div class="row-actions"><div class="apply"><a href="https://ozon.tech/vacancies/60743f0e-eb2e-485c-b598-705ae418f436-stazhior-inzhener-po-avtomatizatsii-testirovaniia-go-instrumenty-avtomaticheskogo-tsenoobrazovaniia-sellera/" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://ozon.tech/vacancies/60743f0e-eb2e-485c-b598-705ae418f436-stazhior-inzhener-po-avtomatizatsii-testirovaniia-go-instrumenty-avtomaticheskogo-tsenoobrazovaniia-sellera/" aria-label="Откликнулся: Ценообразование селлеров · стажёр AQA — Ozon Tech"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Интеграционные и аналитические сервисы · стажёр AQA</strong><span>Ozon Tech</span><span class="location">Москва · гибрид</span></div><p class="description">Автотесты финансовых сервисов. Основы Go, TypeScript или Python, REST/gRPC, практика проверки API.</p>
+            <div class="row-actions"><div class="apply"><a href="https://ozon.tech/vacancies/16bb7a06-d05e-4ad5-9ab9-b8865ad4a647" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://ozon.tech/vacancies/16bb7a06-d05e-4ad5-9ab9-b8865ad4a647" aria-label="Откликнулся: Интеграционные и аналитические сервисы · стажёр AQA — Ozon Tech"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Рекомендации · стажёр QA</strong><span>Ozon Tech</span><span class="location">Удалённо по РФ или гибрид</span></div><p class="description">Ручные проверки фронтенда и бэкенда, автотесты на Go. Нужна практика ручного тестирования.</p>
+            <div class="row-actions"><div class="apply"><a href="https://ozon.tech/vacancies/d9d5fe09-f386-4d66-a36f-bfe008f64544/" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://ozon.tech/vacancies/d9d5fe09-f386-4d66-a36f-bfe008f64544/" aria-label="Откликнулся: Рекомендации · стажёр QA — Ozon Tech"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Позиции с требованиями к опыту</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Junior AQA, «Поток»</strong><span>Сбер</span><span class="location">Москва · гибрид</span></div><p class="description">От года автоматизации на Python. Backend/UI, REST, JSON, SQL.</p>
+            <div class="row-actions"><div class="apply"><a href="https://rabota.sber.ru/search/junior-aqa-inzhener-potok-4579585/" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://rabota.sber.ru/search/junior-aqa-inzhener-potok-4579585/" aria-label="Откликнулся: Junior AQA, «Поток» — Сбер"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр QA, МТС ПРО</strong><span>МТС</span><span class="location">Москва · гибрид, 40 ч/нед.</span></div><p class="description">Оплачивается. В карточке указан опыт 1–3 года. Ручные проверки облачной платформы, REST, логи, Python или Java.</p>
+            <div class="row-actions"><div class="apply"><a href="https://job.mts.ru/vacancy/703886584130309370" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://job.mts.ru/vacancy/703886584130309370" aria-label="Откликнулся: Стажёр QA, МТС ПРО — МТС"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Junior AQA Java, CX</strong><span>МТС Web Services</span><span class="location">Москва · гибрид</span></div><p class="description">От года AQA. Java/JUnit, REST Assured, SQL. Для UI — Playwright или Appium в зависимости от тестов.</p>
+            <div class="row-actions"><div class="apply"><a href="https://job.mts.ru/vacancy/706028876848955688" target="_blank" rel="noopener noreferrer">Вакансия<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://job.mts.ru/vacancy/706028876848955688" aria-label="Откликнулся: Junior AQA Java, CX — МТС Web Services"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Junior AQA, TATLIN.UNIFIED</strong><span>YADRO</span><span class="location">Москва · гибрид</span></div><p class="description">Нужна практика Python/pytest, тест-дизайна и работы с Linux. Автотесты системы хранения данных.</p>
+            <div class="row-actions"><div class="apply"><a href="https://careers.yadro.com/vacancy/102545" target="_blank" rel="noopener noreferrer">Форма с резюме<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://careers.yadro.com/vacancy/102545" aria-label="Откликнулся: Junior AQA, TATLIN.UNIFIED — YADRO"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Программы и общие анкеты</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Подбор стажировки</strong><span>СберТех</span></div><p class="description">Общая анкета со сведениями о вузе и навыках. Отдельная открытая QA-роль не подтверждена.</p>
+            <div class="row-actions"><div class="apply"><a href="https://sbertech.ru/education/internships" target="_blank" rel="noopener noreferrer">Анкета стажёра<span class="visited" hidden>Открывали</span></a> <a href="https://sbertech.ru/career" target="_blank" rel="noopener noreferrer">общая форма с резюме<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Индивидуальная стажировка QA</strong><span>KODE</span></div><p class="description">Круглогодичные заявки. Тестирование приложений и API, Charles/Postman. Удалёнку нужно уточнить.</p>
+            <div class="row-actions"><div class="apply"><a href="https://edu.kode.ru/mentoringinternship" target="_blank" rel="noopener noreferrer">Анкета в разделе QA<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Функциональное тестирование</strong><span>ЛАНИТ Экспертиза</span></div><p class="description">Техническое высшее или неоконченное высшее. Дата старта не указана. Тема письма «Старт для новичков ФТ».</p>
+            <div class="row-actions"><div class="apply"><a href="https://lanit-exp.ru/traineeship/functional-testing-training/" target="_blank" rel="noopener noreferrer">Условия<span class="visited" hidden>Открывали</span></a> <a href="mailto:lanitexp_hr@lanit.ru" target="_blank" rel="noopener noreferrer">почта HR<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Ручное функциональное тестирование</strong><span>МТИ Технологии</span></div><p class="description">От 3 мес., для студентов и выпускников. Дату старта и возможность удалёнки нужно уточнить.</p>
+            <div class="row-actions"><div class="apply"><a href="https://mti-technologies.ru/vakansii.html" target="_blank" rel="noopener noreferrer">Форма<span class="visited" hidden>Открывали</span></a> <a href="mailto:mti.technologies@yandex.com" target="_blank" rel="noopener noreferrer">почта<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          <li class="row"><div class="role"><strong>Онлайн-стажировка QA</strong><span>SimbirSoft</span></div><p class="description">Оплачивается. Для старших курсов ИТ, нужен коммерческий опыт в ИТ. Ориентир — 40 ч/нед.</p>
+            <div class="row-actions"><div class="apply"><a href="https://students.simbirsoft.com/" target="_blank" rel="noopener noreferrer">Анкета с резюме<span class="visited" hidden>Открывали</span></a></div>
+            </div></li>
+          </ul>
+        </section>
+      </section>
+      <details class="secondary">
+        <summary><span class="secondary-title">Вакансии на агрегаторах</span>
+          <span class="secondary-count">14 вакансий</span></summary>
+        <div class="secondary-body">
+<p class="note">Для части карточек hh.ru сведения взяты из открытой выдачи или копии объявления.</p>
+        <section class="group">
+          <h4>Стажировки по автоматизации и нагрузочному тестированию</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Стажёр Python-разработчик-тестировщик</strong><span>ОТП Банк</span><span class="location">Москва, гибрид, 40 ч/нед.</span></div><p class="description">Автотесты платформы данных, веб-интерфейсы, Python и SQL.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/139124117" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://vakradar.ru/vacancy/139124117/" target="_blank" rel="noopener noreferrer">Описание<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/139124117" aria-label="Откликнулся: Стажёр Python-разработчик-тестировщик — ОТП Банк"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Ученик / стажёр по автоматизации на Java</strong><span>Bell Integrator</span><span class="location">Обучение удалённо, после отбора офис в Москве</span></div><p class="description">Бесплатный курс на 1,5 месяца, затем финальный отбор на проект.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/139214075" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://dreamjob.ru/employers/53139/vakansii/139214075" target="_blank" rel="noopener noreferrer">Dream Job<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/139214075" aria-label="Откликнулся: Ученик / стажёр по автоматизации на Java — Bell Integrator"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр по тестированию на Java</strong><span>ASTON</span><span class="location">Удалённо из городов без офиса ASTON</span></div><p class="description">Около 4 месяцев. Нужны основы Java, JUnit или TestNG и Selenium. Условия для Москвы нужно уточнить.</p>
+            <div class="row-actions"><div class="apply"><a href="https://vaiti.tech/vacancy/66bf3943-9d6e-4f39-8028-b04b1873b361" target="_blank" rel="noopener noreferrer">ВАЙТИ<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://vaiti.tech/vacancy/66bf3943-9d6e-4f39-8028-b04b1873b361" aria-label="Откликнулся: Стажёр по тестированию на Java — ASTON"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр по тестированию безопасности</strong><span>R-Vision</span><span class="location">Удалённо, 40 ч/нед.</span></div><p class="description">6 месяцев. Поиск уязвимостей и автоматизация проверок. Нужны Python и чтение JS/TS.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/139162402" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://dreamjob.ru/employers/124853/vakansii/139162402" target="_blank" rel="noopener noreferrer">Dream Job<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/139162402" aria-label="Откликнулся: Стажёр по тестированию безопасности — R-Vision"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Мобильное тестирование без коммерческого опыта в QA</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Стажёр QA</strong><span>ОТП Банк</span><span class="location">Москва, полный день</span></div><p class="description">Ручные проверки мобильного банка и пользовательских сценариев.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138494097" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://dreamjob.ru/employers/41482/vakansii/138494097" target="_blank" rel="noopener noreferrer">Dream Job<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/138494097" aria-label="Откликнулся: Стажёр QA — ОТП Банк"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Продуктовый QA Junior</strong><span>FunFlow</span><span class="location">Москва, офис</span></div><p class="description">Проверка новых функций и регресс мобильных продуктов. Подходит учебная практика.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138980259" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://vakandia.ru/vacancy/produktovyy-qa-inzhener-junior-7266-2116421" target="_blank" rel="noopener noreferrer">Описание<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/138980259" aria-label="Откликнулся: Продуктовый QA Junior — FunFlow"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Тестировщик ПО</strong><span>Айтиспортс</span><span class="location">Москва, офис, возможен гибрид после испытательного срока</span></div><p class="description">Мобильные приложения, веб и API. Postman, DevTools. От 70 тыс. ₽ на руки.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138708296" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://h.careers/job/d26c3c75-4a82-4522-99f2-17cdab476c5f" target="_blank" rel="noopener noreferrer">Эйч<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/138708296" aria-label="Откликнулся: Тестировщик ПО — Айтиспортс"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Другие позиции без коммерческого опыта в QA</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Стажёр QA</strong><span>Mediascope</span><span class="location">Москва, офис, полный день</span></div><p class="description">Веб и API, 1,5 месяца. Для студентов ИТ-направлений. 40 тыс. ₽ до налогов.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138181025" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://finder.work/vacancies/37095007" target="_blank" rel="noopener noreferrer">Описание<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/138181025" aria-label="Откликнулся: Стажёр QA — Mediascope"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Инженер по тестированию NGFW Junior</strong><span>Холдинг Ц1</span><span class="location">Москва, офис</span></div><p class="description">Проверки межсетевого экрана. Подойдёт учебная практика с Linux и сетями.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138418927" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://finder.work/vacancies/36985961" target="_blank" rel="noopener noreferrer">Описание<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/138418927" aria-label="Откликнулся: Инженер по тестированию NGFW Junior — Холдинг Ц1"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Стажёр-тестировщик 1С</strong><span>Bellerage</span><span class="location">Москва, офис</span></div><p class="description">Ручные проверки и Vanessa Automation. Для выпускников и старшекурсников технических направлений.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138995579" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://finder.work/vacancies/37528782" target="_blank" rel="noopener noreferrer">Описание<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/138995579" aria-label="Откликнулся: Стажёр-тестировщик 1С — Bellerage"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        <section class="group">
+          <h4>Junior QA с опытом тестирования</h4>
+          <ul class="rows">
+          <li class="row"><div class="role"><strong>Junior Performance QA Engineer</strong><span>IBS</span><span class="location">Удалённо</span></div><p class="description">JMeter, Grafana или Prometheus. От 6 месяцев коммерческого нагрузочного тестирования.</p>
+            <div class="row-actions"><div class="apply"><a href="https://career.habr.com/vacancies/1000168590" target="_blank" rel="noopener noreferrer">Хабр Карьера<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://career.habr.com/vacancies/1000168590" aria-label="Откликнулся: Junior Performance QA Engineer — IBS"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Junior QA, мобильные игры</strong><span>Azur Games</span><span class="location">Удалённо</span></div><p class="description">Ручные проверки Android-игр. От 6 месяцев тестирования в геймдеве.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138601903" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://h.careers/job/a37aef11-1bf4-4df1-af1d-cd84e720d387" target="_blank" rel="noopener noreferrer">Эйч<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/138601903" aria-label="Откликнулся: Junior QA, мобильные игры — Azur Games"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Junior QA Engineer, Manual + AI Automation</strong><span>Icons8</span><span class="location">Удалённо</span></div><p class="description">iOS, Android, веб и автотесты. От 6 месяцев коммерческого QA веба и API. От 50 тыс. ₽ до налогов.</p>
+            <div class="row-actions"><div class="apply"><a href="https://hh.ru/vacancy/138954998" target="_blank" rel="noopener noreferrer">hh.ru<span class="visited" hidden>Открывали</span></a> <a href="https://vakandia.ru/vacancy/junior-qa-engineer-manual-ai-automation-32509-2130226" target="_blank" rel="noopener noreferrer">Описание<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://hh.ru/vacancy/138954998" aria-label="Откликнулся: Junior QA Engineer, Manual + AI Automation — Icons8"><span>Откликнулся</span></label>
+            </div></li>
+          <li class="row"><div class="role"><strong>Junior QA Engineer</strong><span>Fix Price</span><span class="location">Москва</span></div><p class="description">Функциональные, интеграционные и API-проверки. От года ручного QA.</p>
+            <div class="row-actions"><div class="apply"><a href="https://career.habr.com/vacancies/1000136675" target="_blank" rel="noopener noreferrer">Хабр Карьера<span class="visited" hidden>Открывали</span></a></div>
+              <label class="check" hidden><input type="checkbox" data-job="QA:https://career.habr.com/vacancies/1000136675" aria-label="Откликнулся: Junior QA Engineer — Fix Price"><span>Откликнулся</span></label>
+            </div></li>
+          </ul>
+        </section>
+        </div>
+      </details>
+      <details class="secondary">
+        <summary><span class="secondary-title">Карьерные страницы для следующих наборов</span></summary>
+        <div class="secondary-body">
+        <section class="group">
+          <h4>Карьерные страницы для следующих наборов</h4>
+          <ul class="rows">
+          <li class="row careers"><strong>Продуктовые команды</strong><div><a href="https://career.avito.com/" target="_blank" rel="noopener noreferrer">Авито<span class="visited" hidden>Открывали</span></a>, <a href="https://job.2gis.ru/vacancies" target="_blank" rel="noopener noreferrer">2ГИС<span class="visited" hidden>Открывали</span></a>, <a href="https://career.rwb.ru/" target="_blank" rel="noopener noreferrer">RWB<span class="visited" hidden>Открывали</span></a>, <a href="https://x5.tech/vacancy" target="_blank" rel="noopener noreferrer">X5 Tech<span class="visited" hidden>Открывали</span></a>, <a href="https://magnit.tech/internship" target="_blank" rel="noopener noreferrer">Магнит Tech<span class="visited" hidden>Открывали</span></a>, <a href="https://kontur.ru/education/internship" target="_blank" rel="noopener noreferrer">Контур<span class="visited" hidden>Открывали</span></a>, <a href="https://selectel.ru/careers/all/" target="_blank" rel="noopener noreferrer">Selectel<span class="visited" hidden>Открывали</span></a>, <a href="https://myoffice.ru/career/" target="_blank" rel="noopener noreferrer">МойОфис<span class="visited" hidden>Открывали</span></a>, <a href="https://astra.ru/about/career/traineeship/" target="_blank" rel="noopener noreferrer">Группа Астра<span class="visited" hidden>Открывали</span></a></div></li>
+          <li class="row careers"><strong>Банки и телеком</strong><div><a href="https://student.sber.ru/internship" target="_blank" rel="noopener noreferrer">Сбер<span class="visited" hidden>Открывали</span></a>, <a href="https://education.tbank.ru/start/quality_engineer/" target="_blank" rel="noopener noreferrer">Т-Банк<span class="visited" hidden>Открывали</span></a>, <a href="https://job.alfabank.ru/start-career" target="_blank" rel="noopener noreferrer">Альфа-Банк<span class="visited" hidden>Открывали</span></a>, <a href="https://rabota.vtb.ru/internship/it-yunior/" target="_blank" rel="noopener noreferrer">ВТБ<span class="visited" hidden>Открывали</span></a>, <a href="https://job.mts.ru/programs" target="_blank" rel="noopener noreferrer">МТС<span class="visited" hidden>Открывали</span></a>, <a href="https://job.rt.ru/youngSpecialists" target="_blank" rel="noopener noreferrer">Ростелеком<span class="visited" hidden>Открывали</span></a></div></li>
+          <li class="row careers"><strong>Интеграторы</strong><div><a href="https://career.t1.ru/debut/internship" target="_blank" rel="noopener noreferrer">Т1<span class="visited" hidden>Открывали</span></a>, <a href="https://job.lanit.ru/" target="_blank" rel="noopener noreferrer">ЛАНИТ<span class="visited" hidden>Открывали</span></a>, <a href="https://careers.croc.ru/" target="_blank" rel="noopener noreferrer">КРОК<span class="visited" hidden>Открывали</span></a>, <a href="https://ibs.ru/career/" target="_blank" rel="noopener noreferrer">IBS<span class="visited" hidden>Открывали</span></a>, <a href="https://jet.su/career/" target="_blank" rel="noopener noreferrer">Инфосистемы Джет<span class="visited" hidden>Открывали</span></a>, <a href="https://digitalleague.ru/career/traineeships" target="_blank" rel="noopener noreferrer">Лига Цифровой Экономики<span class="visited" hidden>Открывали</span></a>, <a href="https://career.korusconsulting.ru/vacancies/" target="_blank" rel="noopener noreferrer">КОРУС Консалтинг<span class="visited" hidden>Открывали</span></a>, <a href="https://softline.ru/job" target="_blank" rel="noopener noreferrer">Softline<span class="visited" hidden>Открывали</span></a>, <a href="https://icl-services.com/career/job/" target="_blank" rel="noopener noreferrer">ICL Services<span class="visited" hidden>Открывали</span></a>, <a href="https://www.naumen.ru/career/trainee/" target="_blank" rel="noopener noreferrer">Naumen<span class="visited" hidden>Открывали</span></a>, <a href="https://neoflex.ru/about/career" target="_blank" rel="noopener noreferrer">Neoflex<span class="visited" hidden>Открывали</span></a>, <a href="https://bellintegrator.ru/information/careers" target="_blank" rel="noopener noreferrer">Bell Integrator<span class="visited" hidden>Открывали</span></a>, <a href="https://www.axenix.tech/career" target="_blank" rel="noopener noreferrer">Axenix<span class="visited" hidden>Открывали</span></a>, <a href="https://www.norbit.ru/karera/vakansii/" target="_blank" rel="noopener noreferrer">НОРБИТ<span class="visited" hidden>Открывали</span></a>, <a href="https://career.astondevs.ru/trainee" target="_blank" rel="noopener noreferrer">ASTON<span class="visited" hidden>Открывали</span></a></div></li>
+          <li class="row careers"><strong>Мобильная разработка</strong><div><a href="https://internship.vk.company/" target="_blank" rel="noopener noreferrer">VK<span class="visited" hidden>Открывали</span></a>, <a href="https://www.agima.ru/careers/" target="_blank" rel="noopener noreferrer">AGIMA<span class="visited" hidden>Открывали</span></a>, <a href="https://e-legion.ru/about/career/" target="_blank" rel="noopener noreferrer">e-legion<span class="visited" hidden>Открывали</span></a>, <a href="https://career.65apps.com/" target="_blank" rel="noopener noreferrer">65apps<span class="visited" hidden>Открывали</span></a>, <a href="https://redmadrobot.ru/career" target="_blank" rel="noopener noreferrer">red_mad_robot<span class="visited" hidden>Открывали</span></a>, <a href="https://surf.ru/internship/discuss/" target="_blank" rel="noopener noreferrer">Surf<span class="visited" hidden>Открывали</span></a></div></li>
+          </ul>
+        </section>
+        </div>
+      </details>
+      <p class="storage-note" hidden>Отметки сохраняются только в этом браузере.</p>
+    </section>
 </main>
 <script>
-  const form = document.querySelector('.filters');
-  const platform = document.getElementById('platform');
-  const source = document.getElementById('source');
-  const search = document.getElementById('search');
-  const results = document.getElementById('results');
-  const sections = [...document.querySelectorAll('.source')];
-  const normalize = text => text.toLocaleLowerCase('ru').replaceAll('ё', 'е');
-  function filter() {
-    const words = normalize(search.value.trim()).split(/\s+/u);
-    let positions = 0;
-    let references = 0;
-    for (const section of sections) {
-      const matches = (!platform.value || section.dataset.platform === platform.value)
-        && (!source.value || section.dataset.kind === source.value);
-      let visible = false;
-      for (const group of section.querySelectorAll('.group')) {
-        let count = 0;
-        for (const row of group.querySelectorAll('.row')) {
-          const haystack = normalize(row.textContent);
-          row.hidden = !matches || !words.every(word => haystack.includes(word));
-          count += Number(!row.hidden);
-        }
-        group.hidden = count === 0;
-        visible ||= count > 0;
-        if (group.dataset.career === 'true') references += count;
-        else positions += count;
-      }
-      section.hidden = !visible;
+  const tabs = [...document.querySelectorAll('.choice')];
+  const panels = [...document.querySelectorAll('.track-panel')];
+  const storagePrefix = 'junior-it-vacancies:';
+  const sessionMarks = new Map();
+
+  function readMark(key) {
+    if (sessionMarks.has(key)) return sessionMarks.get(key);
+    try {
+      return localStorage.getItem(storagePrefix + key) === '1';
+    } catch {
+      return false;
     }
-    results.textContent = positions || references
-      ? 'Вакансии и программы — ' + positions + (references ? ' · Подборки карьерных страниц — ' + references : '')
-      : 'По этому запросу ничего не нашлось.';
   }
-  form.hidden = false;
-  results.hidden = false;
-  form.addEventListener('submit', event => event.preventDefault());
-  form.addEventListener('input', filter);
-  filter();
+
+  function writeMark(key, marked) {
+    try {
+      if (marked) localStorage.setItem(storagePrefix + key, '1');
+      else localStorage.removeItem(storagePrefix + key);
+    } catch {
+      sessionMarks.set(key, marked);
+    }
+  }
+
+  function selectDirection(scroll = false) {
+    const selected = panels.find(panel => '#' + panel.id === location.hash);
+    for (const panel of panels) panel.hidden = panel !== selected;
+    for (const tab of tabs) {
+      if (selected && tab.hash === location.hash) tab.setAttribute('aria-current', 'location');
+      else tab.removeAttribute('aria-current');
+    }
+    if (selected && scroll) {
+      selected.querySelector('h2').focus({ preventScroll: true });
+      selected.scrollIntoView();
+    } else if (scroll && location.hash === '#choose') {
+      document.getElementById('choose').focus({ preventScroll: true });
+      window.scrollTo(0, 0);
+    }
+  }
+
+  function normalize(text) {
+    return text.toLocaleLowerCase('ru').replaceAll('ё', 'е');
+  }
+
+  function searchPanel(panel) {
+    const input = panel.querySelector('input[type="search"]');
+    const query = normalize(input.value.trim());
+    const words = query.split(/\s+/u);
+    let total = 0;
+
+    for (const source of panel.querySelectorAll('.source, .secondary')) {
+      let matches = 0;
+      for (const group of source.querySelectorAll('.group')) {
+        let groupMatches = 0;
+        for (const row of group.querySelectorAll('.row')) {
+          row.hidden = !words.every(word => row.dataset.search.includes(word));
+          if (!row.hidden) groupMatches += 1;
+        }
+        group.hidden = groupMatches === 0;
+        matches += groupMatches;
+      }
+      source.hidden = source.matches('details') && matches === 0;
+      const count = source.querySelector('.secondary-count');
+      if (count) {
+        count.textContent = query ? 'Совпадений: ' + matches : count.dataset.label;
+      }
+      if (!source.matches('details')) {
+        source.querySelector('.no-direct').hidden = matches > 0;
+      }
+      total += matches;
+    }
+
+    const results = panel.querySelector('.results');
+    results.hidden = !query;
+    results.textContent = total ? 'Совпадений: ' + total : 'По этому запросу ничего не нашлось.';
+  }
+
+  const allLinks = [...document.querySelectorAll('.track-panel a[target="_blank"]')];
+  const checkboxes = [...document.querySelectorAll('.check input')];
+  const linkKey = link => 'visited:' + link.href;
+
+  function paintMarks() {
+    for (const link of allLinks) {
+      const visited = readMark(linkKey(link));
+      const badge = link.querySelector('.visited');
+      if (badge) badge.hidden = !visited;
+      if (visited) {
+        link.dataset.visited = 'true';
+        link.title = 'Ссылку уже открывали';
+      } else {
+        delete link.dataset.visited;
+        link.removeAttribute('title');
+      }
+    }
+    for (const checkbox of checkboxes) {
+      const applied = readMark('applied:' + checkbox.dataset.job);
+      checkbox.checked = applied;
+      checkbox.closest('.row').dataset.applied = applied;
+    }
+  }
+
+  function markVisit(event) {
+    const link = event.target.closest('a[target="_blank"]');
+    if (!link || !link.closest('.track-panel')) return;
+    writeMark(linkKey(link), true);
+    paintMarks();
+  }
+
+  for (const panel of panels) {
+    for (const row of panel.querySelectorAll('.row')) {
+      const fields = row.querySelectorAll('.role > *, .description, a, .careers strong');
+      const text = [...fields].map(field => field.matches('a') ? field.firstChild.textContent : field.textContent);
+      row.dataset.search = normalize(text.join(' '));
+    }
+    for (const count of panel.querySelectorAll('.secondary-count')) count.dataset.label = count.textContent;
+    const form = panel.querySelector('.search');
+    form.hidden = false;
+    form.addEventListener('submit', event => event.preventDefault());
+    form.addEventListener('input', () => searchPanel(panel));
+    for (const check of panel.querySelectorAll('.check')) check.hidden = false;
+    panel.querySelector('.storage-note').hidden = false;
+  }
+
+  for (const tab of tabs) {
+    tab.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
+      event.preventDefault();
+      if (location.hash !== tab.hash) history.pushState(null, '', tab.hash);
+      selectDirection(true);
+    });
+  }
+  for (const checkbox of checkboxes) {
+    checkbox.addEventListener('change', () => {
+      writeMark('applied:' + checkbox.dataset.job, checkbox.checked);
+      paintMarks();
+    });
+  }
+
+  document.addEventListener('click', markVisit);
+  document.addEventListener('auxclick', event => {
+    if (event.button === 1) markVisit(event);
+  });
+  window.addEventListener('storage', event => {
+    if (event.key === null || event.key.startsWith(storagePrefix)) paintMarks();
+  });
+  window.addEventListener('pageshow', paintMarks);
+  window.addEventListener('hashchange', () => selectDirection(true));
+  paintMarks();
+  selectDirection(Boolean(location.hash));
 </script>
 </body>
 </html>
