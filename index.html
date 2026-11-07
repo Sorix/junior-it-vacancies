@@ -20,7 +20,8 @@
     --hero-muted: #c6cde0;
     --accent: #ffad42;
     --accent-ink: #171b26;
-    --applied: #e8f3eb;
+    --applied: #dff1e5;
+    --applied-control: #c1e4ce;
     --applied-ink: #1d5a3a;
     --visited-ink: #4a5471;
     --focus: #255fb8;
@@ -121,7 +122,7 @@
   .rows { list-style: none; display: grid; gap: .45rem; margin: 0; padding: 0; }
   .row {
     display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.5fr) minmax(0, .75fr);
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1.5fr) minmax(10.5rem, .75fr);
     gap: 1.35rem;
     align-items: start;
     padding: 1.1rem 1.15rem;
@@ -160,16 +161,20 @@
   }
   .apply a:first-child .visited { display: block; margin: .1rem 0 0; }
   .check {
-    min-height: 2.5rem;
+    min-height: 3rem;
     display: inline-flex;
-    gap: .45rem;
+    gap: .55rem;
     align-items: center;
-    color: var(--muted);
+    padding: .45rem .65rem;
+    background: var(--bg);
+    color: var(--ink);
     cursor: pointer;
-    font-size: var(--small);
+    font-size: var(--body);
+    font-weight: 650;
   }
-  .check input { width: 1.1rem; height: 1.1rem; margin: 0; accent-color: var(--applied-ink); cursor: pointer; flex: none; }
-  .row[data-applied="true"] .check { color: var(--applied-ink); font-weight: 700; }
+  .check:hover { background: var(--surface-hover); }
+  .check input { width: 1.75rem; height: 1.75rem; margin: 0; accent-color: var(--applied-ink); cursor: pointer; flex: none; }
+  .row[data-applied="true"] .check { background: var(--applied-control); color: var(--applied-ink); font-weight: 750; }
   .careers { grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr); }
   .secondary { margin-top: 1.1rem; background: var(--surface); }
   .secondary summary {
